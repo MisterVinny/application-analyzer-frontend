@@ -1,6 +1,9 @@
 <template>
-  <div class="user">
+  <div class="profile">
     <div>{{ userDetails }}</div>
+    <div>
+      <button v-on:click="deleteUser()">Delete User</button>
+    </div>
   </div>
 </template>
 
@@ -14,11 +17,19 @@ export default {
       errors: [],
     };
   },
+
+  created: function () {
+    axios.get("/users/self").then((response) => {
+      console.log("User: ", response.data);
+      this.userDetails = response.data;
+    });
+  },
   methods: {
-    submit: function () {
-      axios.get(`/users/${this.$route.params.userid}`).then((response) => {
-        console.log("User: ", response.data);
-        this.userDetails = response.data;
+    deleteUser: function () {
+      axios.delete("/users/self").then((response) => {
+        console.log(response.data);
+        localStorage.removeItem("jwt");
+        this.$router.push("/");
       });
     },
   },

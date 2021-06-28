@@ -2,8 +2,7 @@
   <div id="app">
     <div id="nav">
       <router-link to="/">Login</router-link> ||
-      <router-link to="/signup">Signup</router-link> ||
-      <router-link to="/user">User</router-link> ||
+      <router-link to="/profile">Profile</router-link> ||
       <router-link to="/applications">Applications</router-link> ||
       <router-link to="/logout">Logout</router-link>
     </div>
@@ -33,13 +32,3 @@
   color: #42b983;
 }
 </style>
-
-<script>
-export default {
-  data: function () {
-    return {
-      userID: 0,
-    };
-  },
-};
-</script>
