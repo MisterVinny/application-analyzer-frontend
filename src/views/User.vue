@@ -15,41 +15,43 @@
       </div>
       <button v-on:click="toggleEdit()">Edit User Details</button>
     </div>
-    <form v-else v-on:submit.prevent="updateUser()">
+    <div v-else>
+      <form v-on:submit.prevent="updateUser()">
+        <div>
+          <div>
+            <h5>Username</h5>
+            <input
+              type="text"
+              :placeholder="userDetails.username"
+              v-model="editUserParams.username"
+            />
+          </div>
+          <div>
+            <h5>Address</h5>
+            <input
+              type="text"
+              :placeholder="userDetails.address"
+              v-model="editUserParams.address"
+            />
+          </div>
+          <div>
+            <h5>Email</h5>
+            <input
+              type="text"
+              :placeholder="userDetails.email"
+              v-model="editUserParams.email"
+            />
+          </div>
+          <div>
+            <button v-on:click="toggleEdit()">Cancel</button>
+            <button v-on:click="updateUser()">Update User</button>
+          </div>
+        </div>
+      </form>
       <div>
-        <div>
-          <h5>Username</h5>
-          <input
-            type="text"
-            :placeholder="userDetails.username"
-            v-model="editUserParams.username"
-          />
-        </div>
-        <div>
-          <h5>Address</h5>
-          <input
-            type="text"
-            :placeholder="userDetails.address"
-            v-model="editUserParams.address"
-          />
-        </div>
-        <div>
-          <h5>Email</h5>
-          <input
-            type="text"
-            :placeholder="userDetails.email"
-            v-model="editUserParams.email"
-          />
-        </div>
-        <div>
-          <button v-on:click="toggleEdit()">Cancel</button>
-          <button v-on:click="updateUser()">Update User</button>
-        </div>
-        <div>
-          <button v-on:click="deleteUser()">Delete User</button>
-        </div>
+        <button v-on:click="deleteUser()">Delete User</button>
       </div>
-    </form>
+    </div>
   </div>
 </template>
 
@@ -82,11 +84,13 @@ export default {
       });
     },
     deleteUser: function () {
-      axios.delete("/users/self").then((response) => {
-        console.log(response.data);
-        localStorage.removeItem("jwt");
-        this.$router.push("/");
-      });
+      if (confirm("Do you really want to delete this user?")) {
+        axios.delete("/users/self").then((response) => {
+          console.log(response.data);
+          localStorage.removeItem("jwt");
+          this.$router.push("/");
+        });
+      }
     },
     toggleEdit: function () {
       this.editToggle = !this.editToggle;
