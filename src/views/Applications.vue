@@ -1,5 +1,8 @@
 <template>
   <div class="applications">
+    <div>
+      <router-link to="/applications/new">Add Application</router-link>
+    </div>
     <div v-for="application in applications" v-bind:key="application.id">
       <p>{{ application }}</p>
     </div>

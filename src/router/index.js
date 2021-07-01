@@ -5,6 +5,7 @@ import User from "../views/User.vue";
 import Signup from "../views/Signup.vue";
 import Applications from "../views/Applications.vue";
 import Logout from "../views/Logout.vue";
+import ApplicationsNew from "../views/ApplicationsNew.vue";
 
 Vue.use(VueRouter);
 
@@ -28,6 +29,11 @@ const routes = [
     path: "/applications",
     name: "applications",
     component: Applications,
+  },
+  {
+    path: "/applications/new",
+    name: "applications-new",
+    component: ApplicationsNew,
   },
   {
     path: "/logout",
