@@ -1,10 +1,11 @@
 <template>
   <div id="app">
     <div id="nav">
-      <router-link to="/">Login</router-link> ||
-      <router-link to="/profile">Profile</router-link> ||
-      <router-link to="/applications">Applications</router-link> ||
-      <router-link to="/logout">Logout</router-link>
+      <span v-if="isLoggedIn()">
+        <router-link to="/profile">Profile</router-link> ||
+        <router-link to="/applications">Applications</router-link> ||
+        <router-link to="/logout">Logout</router-link>
+      </span>
     </div>
     <router-view />
   </div>
@@ -32,3 +33,21 @@
   color: #42b983;
 }
 </style>
+
+<script>
+export default {
+  data: function () {
+    return {
+      flashMessage: "Testme",
+    };
+  },
+
+  created: function () {},
+
+  methods: {
+    isLoggedIn: function () {
+      return localStorage.getItem("jwt");
+    },
+  },
+};
+</script>
