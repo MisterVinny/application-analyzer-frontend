@@ -5,6 +5,9 @@
     </div>
     <div v-for="application in applications" v-bind:key="application.id">
       <p>{{ application }}</p>
+      <router-link :to="`/applications/${application.id}/edit`"
+        >Edit</router-link
+      >
     </div>
   </div>
 </template>

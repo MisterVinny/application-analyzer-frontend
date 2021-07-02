@@ -6,6 +6,7 @@ import Signup from "../views/Signup.vue";
 import Applications from "../views/Applications.vue";
 import Logout from "../views/Logout.vue";
 import ApplicationsNew from "../views/ApplicationsNew.vue";
+import ApplicationsEdit from "../views/ApplicationsEdit.vue";
 
 Vue.use(VueRouter);
 
@@ -34,6 +35,11 @@ const routes = [
     path: "/applications/new",
     name: "applications-new",
     component: ApplicationsNew,
+  },
+  {
+    path: "/applications/:id/edit",
+    name: "applications-edit",
+    component: ApplicationsEdit,
   },
   {
     path: "/logout",
