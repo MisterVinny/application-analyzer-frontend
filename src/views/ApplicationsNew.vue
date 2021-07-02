@@ -30,16 +30,12 @@
       </div>
       <div class="form-group">
         <label>Date:</label>
+        <!-- Date picker in form - pay attention to styling later-->
         <date-picker
           v-model="newApplicationParams.date"
           class="form-control"
           valueType="format"
         ></date-picker>
-        <!-- <input
-          type="text"
-          class="form-control"
-          v-model="newApplicationParams.date"
-        /> -->
       </div>
       <div class="form-group">
         <label>Contact:</label>
