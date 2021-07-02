@@ -32,6 +32,16 @@
 #nav a.router-link-exact-active {
   color: #42b983;
 }
+
+li.text-danger {
+  color: red;
+}
+
+ul.no-bullets {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
 </style>
 
 <script>

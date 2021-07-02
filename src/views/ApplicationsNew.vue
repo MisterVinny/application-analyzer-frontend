@@ -3,52 +3,112 @@
     <div>
       <h1>Add a New Application</h1>
     </div>
-    <form v-on:submit="createApplication()">
-      <p>
-        Employer: <input type="text" v-model="newApplicationParams.employer" />
-      </p>
-      <p>
-        Address: <input type="text" v-model="newApplicationParams.address" />
-      </p>
-      <p>
-        Position: <input type="text" v-model="newApplicationParams.position" />
-      </p>
-      <p>Date: <input type="text" v-model="newApplicationParams.date" /></p>
-      <p>
-        Contact: <input type="text" v-model="newApplicationParams.contact" />
-      </p>
-      <p>Email: <input type="text" v-model="newApplicationParams.email" /></p>
-      <p>
-        Followup: <input type="text" v-model="newApplicationParams.followup" />
-      </p>
-      <p>Method: <input type="text" v-model="newApplicationParams.method" /></p>
-      <p>
-        Interviews:
-        <input type="text" v-model="newApplicationParams.interviews" />
-      </p>
-      <p>Status: <input type="text" v-model="newApplicationParams.status" /></p>
-      <p>
-        Enthusiasm:
-        <input type="text" v-model="newApplicationParams.enthusiasm" />
-      </p>
-      <p>
-        Confidence:
-        <input type="text" v-model="newApplicationParams.confidence" />
-      </p>
-      <p>Notes: <input type="text" v-model="newApplicationParams.notes" /></p>
+    <form v-on:submit.prevent="createApplication()">
+      <div class="form-group">
+        <label>Employer:</label>
+        <input
+          type="text"
+          class="form-control"
+          v-model="newApplicationParams.employer"
+        />
+      </div>
+      <div class="form-group">
+        <label>Address:</label>
+        <input
+          type="text"
+          class="form-control"
+          v-model="newApplicationParams.address"
+        />
+      </div>
+      <div class="form-group">
+        <label>Position:</label>
+        <input
+          type="text"
+          class="form-control"
+          v-model="newApplicationParams.position"
+        />
+      </div>
+      <div class="form-group">
+        <label>Date:</label>
+        <input
+          type="text"
+          class="form-control"
+          v-model="newApplicationParams.date"
+        />
+      </div>
+      <div class="form-group">
+        <label>Contact:</label>
+        <input
+          type="text"
+          class="form-control"
+          v-model="newApplicationParams.contact"
+        />
+      </div>
+      <div class="form-group">
+        <label>Email:</label>
+        <input
+          type="text"
+          class="form-control"
+          v-model="newApplicationParams.email"
+        />
+      </div>
+      <div class="form-group">
+        <label>Method:</label>
+        <input
+          type="text"
+          class="form-control"
+          v-model="newApplicationParams.method"
+        />
+      </div>
+      <div class="form-group">
+        <label>Enthusiasm:</label>
+        <input
+          type="number"
+          class="form-control"
+          v-model="newApplicationParams.enthusiasm"
+        />
+      </div>
+      <div class="form-group">
+        <label>Confidence:</label>
+        <input
+          type="number"
+          class="form-control"
+          v-model="newApplicationParams.confidence"
+        />
+      </div>
+      <div class="form-group">
+        <label>Notes:</label>
+        <input
+          type="text"
+          class="form-control"
+          v-model="newApplicationParams.notes"
+        />
+      </div>
       <input type="submit" class="btn btn-primary" value="Submit" />
     </form>
 
+    <ul class="no-bullets">
+      <li class="text-danger" v-for="error in errors" v-bind:key="error.id">
+        {{ error }}
+      </li>
+    </ul>
     <p>{{ newApplicationParams }}</p>
+    <date-picker v-model="time1" valueType="format"></date-picker>
   </div>
 </template>
 
 <script>
 import axios from "axios";
+import DatePicker from "vue2-datepicker";
+import "vue2-datepicker/index.css";
 
 export default {
   data: function () {
+    components: {
+      DatePicker;
+    }
     return {
+      time1: null,
       errors: [],
       newApplicationParams: {},
     };
