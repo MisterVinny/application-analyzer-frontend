@@ -94,6 +94,7 @@
       </li>
     </ul>
     <p>{{ updateApplicationParams }}</p>
+    <button v-on:click="deleteApplication()">Delete Application</button>
   </div>
 </template>
 
@@ -136,6 +137,16 @@ export default {
           console.log(error.response.data.message);
           this.status = error.response.status;
         });
+    },
+    deleteApplication: function () {
+      if (confirm("Do you really want to delete this application?")) {
+        axios
+          .delete(`/applications/${this.$route.params.id}`)
+          .then((response) => {
+            console.log(response.data);
+            this.$router.push("/applications");
+          });
+      }
     },
   },
 };
