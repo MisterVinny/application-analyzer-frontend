@@ -30,11 +30,16 @@
       </div>
       <div class="form-group">
         <label>Date:</label>
-        <input
+        <date-picker
+          v-model="newApplicationParams.date"
+          class="form-control"
+          valueType="format"
+        ></date-picker>
+        <!-- <input
           type="text"
           class="form-control"
           v-model="newApplicationParams.date"
-        />
+        /> -->
       </div>
       <div class="form-group">
         <label>Contact:</label>
@@ -93,7 +98,6 @@
       </li>
     </ul>
     <p>{{ newApplicationParams }}</p>
-    <date-picker v-model="time1" valueType="format"></date-picker>
   </div>
 </template>
 
@@ -103,10 +107,10 @@ import DatePicker from "vue2-datepicker";
 import "vue2-datepicker/index.css";
 
 export default {
+  components: {
+    DatePicker,
+  },
   data: function () {
-    components: {
-      DatePicker;
-    }
     return {
       time1: null,
       errors: [],
