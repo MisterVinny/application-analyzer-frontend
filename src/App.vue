@@ -4,6 +4,7 @@
       <span v-if="isLoggedIn()">
         <router-link to="/profile">Profile</router-link> ||
         <router-link to="/applications">Applications</router-link> ||
+        <router-link to="/analysis">Analysis</router-link> ||
         <router-link to="/logout">Logout</router-link>
       </span>
     </div>
@@ -41,6 +42,10 @@ ul.no-bullets {
   list-style-type: none;
   padding: 0;
   margin: 0;
+}
+
+#inline {
+  display: inline-block;
 }
 </style>
 

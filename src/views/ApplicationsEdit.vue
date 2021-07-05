@@ -110,7 +110,9 @@
       </div>
       <div class="form-group">
         <label>Notes : </label>
-        <input
+        <textarea
+          rows="4"
+          cols="30"
           type="text"
           class="form-control"
           v-model="updateApplicationParams.notes"

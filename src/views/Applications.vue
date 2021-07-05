@@ -1,34 +1,57 @@
 <template>
   <div class="applications">
-    <p>Sort By:</p>
-    <v-select
-      :options="[
-        'employer',
-        'address',
-        'position',
-        'date',
-        'contact',
-        'email',
-        'followup',
-        'interviews',
-        'status',
-        'method',
-        'enthusiasm',
-        'confidence',
-      ]"
-      v-model="filterTerm"
-    ></v-select>
-    <label>Sort Order : </label>
-    <input type="radio" v-model="sortOrder" v-bind:value="1" />
-    <label for=""></label>Ascending
-    <input type="radio" v-model="sortOrder" v-bind:value="-1" />
-    <label for="">Descending</label>
+    <div>
+      <p>{{ sortKey }}</p>
+      <!-- <div id="inline">
+        <p>Sort By:</p>
+      </div> -->
 
+      <div id="inline">
+        <label for="cars">Sort By:</label>
+        <select v-model="sortKey">
+          <option value="employer">Employer</option>
+          <option value="address">Address</option>
+          <option value="position">Position</option>
+          <option value="date">Date</option>
+          <option value="contact">Contact</option>
+          <option value="email">Email</option>
+          <option value="followup">Followup</option>
+          <option value="interviews">Interviews</option>
+          <option value="status">Status</option>
+          <option value="status">Status</option>
+          <option value="method">Method</option>
+          <option value="enthusiasm">Enthusiasm</option>
+          <option value="confidence">Confidence</option>
+          <option value="updated_at">Updated_at</option>
+          <option value="audi">Audi</option>
+          <option value="audi">Audi</option>
+        </select>
+      </div>
+
+      <div id="inline">
+        <label>Sort Order : </label>
+        <input type="radio" v-model="sortOrder" v-bind:value="1" />
+        <label></label>Ascending
+        <input type="radio" v-model="sortOrder" v-bind:value="-1" />
+        <label>Descending</label>
+      </div>
+    </div>
+
+    <!-- <div>
+      <input v-model="sortKey" type="text" list="methods" />
+      <br />
+
+      <datalist id="methods">
+        <option v-for="application in applications" v-bind:key="application.id">
+          {{ application.method }}
+        </option>
+      </datalist>
+    </div> -->
     <div>
       <router-link to="/applications/new">Add Application</router-link>
     </div>
     <div
-      v-for="application in orderBy(applications, filterTerm, sortOrder)"
+      v-for="application in orderBy(applications, sortKey, sortOrder)"
       v-bind:key="application.id"
     >
       <!--List used here for formatting with bootstrap, or similar, for dynamic page sizing of application data-->
@@ -64,7 +87,7 @@ export default {
   data: function () {
     return {
       applications: [],
-      searchTerm: "",
+      sortKey: "",
       filterTerm: "",
       sortOrder: 1,
     };
