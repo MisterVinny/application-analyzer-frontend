@@ -5,7 +5,7 @@
     </div>
     <form v-on:submit.prevent="updateApplication()">
       <div class="form-group">
-        <label>Employer:</label>
+        <label>Employer : </label>
         <input
           type="text"
           class="form-control"
@@ -13,7 +13,7 @@
         />
       </div>
       <div class="form-group">
-        <label>Address:</label>
+        <label>Address : </label>
         <input
           type="text"
           class="form-control"
@@ -21,7 +21,7 @@
         />
       </div>
       <div class="form-group">
-        <label>Position:</label>
+        <label>Position : </label>
         <input
           type="text"
           class="form-control"
@@ -29,7 +29,7 @@
         />
       </div>
       <div class="form-group">
-        <label>Date:</label>
+        <label>Date : </label>
         <!-- Date picker in form - pay attention to styling later-->
         <date-picker
           v-model="updateApplicationParams.date"
@@ -38,7 +38,7 @@
         ></date-picker>
       </div>
       <div class="form-group">
-        <label>Contact:</label>
+        <label>Contact : </label>
         <input
           type="text"
           class="form-control"
@@ -46,7 +46,7 @@
         />
       </div>
       <div class="form-group">
-        <label>Email:</label>
+        <label>Email : </label>
         <input
           type="text"
           class="form-control"
@@ -54,7 +54,38 @@
         />
       </div>
       <div class="form-group">
-        <label>Method:</label>
+        <label>Followup Sent? : </label>
+        <input
+          type="radio"
+          v-model="updateApplicationParams.followup"
+          v-bind:value="true"
+        />
+        <label for=""></label>True
+        <input
+          type="radio"
+          v-model="updateApplicationParams.followup"
+          v-bind:value="false"
+        />
+        <label for="">False</label>
+      </div>
+      <div class="form-group">
+        <label>Interviews : </label>
+        <input
+          type="text"
+          class="form-control"
+          v-model="updateApplicationParams.interviews"
+        />
+      </div>
+      <div class="form-group">
+        <label>Status : </label>
+        <input
+          type="text"
+          class="form-control"
+          v-model="updateApplicationParams.status"
+        />
+      </div>
+      <div class="form-group">
+        <label>Method : </label>
         <input
           type="text"
           class="form-control"
@@ -62,7 +93,7 @@
         />
       </div>
       <div class="form-group">
-        <label>Enthusiasm:</label>
+        <label>Enthusiasm : </label>
         <input
           type="number"
           class="form-control"
@@ -70,7 +101,7 @@
         />
       </div>
       <div class="form-group">
-        <label>Confidence:</label>
+        <label>Confidence : </label>
         <input
           type="number"
           class="form-control"
@@ -78,7 +109,7 @@
         />
       </div>
       <div class="form-group">
-        <label>Notes:</label>
+        <label>Notes : </label>
         <input
           type="text"
           class="form-control"

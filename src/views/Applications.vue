@@ -18,12 +18,17 @@
       ]"
       v-model="filterTerm"
     ></v-select>
+    <label>Sort Order : </label>
+    <input type="radio" v-model="sortOrder" v-bind:value="1" />
+    <label for=""></label>Ascending
+    <input type="radio" v-model="sortOrder" v-bind:value="-1" />
+    <label for="">Descending</label>
 
     <div>
       <router-link to="/applications/new">Add Application</router-link>
     </div>
     <div
-      v-for="application in orderBy(applications, filterTerm, order)"
+      v-for="application in orderBy(applications, filterTerm, sortOrder)"
       v-bind:key="application.id"
     >
       <!--List used here for formatting with bootstrap, or similar, for dynamic page sizing of application data-->
@@ -61,7 +66,7 @@ export default {
       applications: [],
       searchTerm: "",
       filterTerm: "",
-      order: 1,
+      sortOrder: 1,
     };
   },
 
