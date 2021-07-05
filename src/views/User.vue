@@ -1,6 +1,7 @@
 <template>
   <div class="profile">
     <div v-if="editToggle === false">
+      <h1>Profile</h1>
       <div>
         <h5>Username</h5>
         <p>{{ userDetails.username }}</p>
@@ -16,36 +17,23 @@
       <button v-on:click="toggleEdit()">Edit User Details</button>
     </div>
     <div v-else>
+      <h1>Edit Profile</h1>
       <form v-on:submit.prevent="updateUser()">
         <div>
-          <div>
-            <h5>Username</h5>
-            <input
-              type="text"
-              :placeholder="userDetails.username"
-              v-model="editUserParams.username"
-            />
-          </div>
-          <div>
-            <h5>Address</h5>
-            <input
-              type="text"
-              :placeholder="userDetails.address"
-              v-model="editUserParams.address"
-            />
-          </div>
-          <div>
-            <h5>Email</h5>
-            <input
-              type="text"
-              :placeholder="userDetails.email"
-              v-model="editUserParams.email"
-            />
-          </div>
-          <div>
-            <button v-on:click="toggleEdit()">Cancel</button>
-            <button v-on:click="updateUser()">Update User</button>
-          </div>
+          <h5>Username</h5>
+          <input type="text" v-model="editUserParams.username" />
+        </div>
+        <div>
+          <h5>Address</h5>
+          <textarea type="text" v-model="editUserParams.address" />
+        </div>
+        <div>
+          <h5>Email</h5>
+          <input type="text" v-model="editUserParams.email" />
+        </div>
+        <div>
+          <button v-on:click="toggleEdit()">Cancel</button>
+          <button v-on:click="updateUser()">Update User</button>
         </div>
       </form>
       <div>
@@ -93,6 +81,9 @@ export default {
       }
     },
     toggleEdit: function () {
+      if (this.editToggle === false) {
+        Object.assign(this.editUserParams, this.userDetails);
+      }
       this.editToggle = !this.editToggle;
     },
   },

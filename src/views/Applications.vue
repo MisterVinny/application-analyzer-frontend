@@ -2,10 +2,6 @@
   <div class="applications">
     <div>
       <p>{{ sortKey }}</p>
-      <!-- <div id="inline">
-        <p>Sort By:</p>
-      </div> -->
-
       <div id="inline">
         <label for="cars">Sort By:</label>
         <select v-model="sortKey">
@@ -13,9 +9,6 @@
           <option value="address">Address</option>
           <option value="position">Position</option>
           <option value="date">Date</option>
-          <option value="contact">Contact</option>
-          <option value="email">Email</option>
-          <option value="followup">Followup</option>
           <option value="interviews">Interviews</option>
           <option value="status">Status</option>
           <option value="status">Status</option>
