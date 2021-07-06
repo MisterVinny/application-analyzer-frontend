@@ -10,10 +10,9 @@
           <option value="position">Position</option>
           <option value="date">Date</option>
           <option value="interviews">Interviews</option>
-          <option value="status">Status</option>
           <option value="enthusiasm">Enthusiasm</option>
           <option value="confidence">Confidence</option>
-          <option value="updated_at">Updated_at</option>
+          <option value="updated_at">Last Updated</option>
         </select>
       </div>
 
@@ -28,19 +27,19 @@
 
     <div>
       <div id="inline">
-        <label>Filter By:</label>
+        <label>Filter By Field:</label>
         <select v-model="filterKey">
-          <option value="" selected disabled hidden>Field</option>
+          <option value="" selectetd hidden>Field</option>
           <option value="followup">Followup</option>
           <option value="status">Status</option>
           <option value="method">Method</option>
         </select>
       </div>
       <div id="inline">
-        <select v-model="filterValue">
-          <option value="" selected disabled hidden>Value</option>
+        <select v-if="filterKey != employer" v-model="filterValue">
+          <option value="" disabled hidden>Value</option>
           <option
-            v-for="application in applications"
+            v-for="application in filteredValues"
             v-bind:key="application.id"
           >
             {{ application[filterKey] }}
@@ -49,6 +48,22 @@
       </div>
       <button v-on:click="resetFilter()">Reset Filter</button>
     </div>
+
+    <!-- refactor this to fit and have a v-if for each of the filter Keys based on what is selected -->
+    <!-- <input v-model="searchTerm" type="text" list="titles" />
+    <br />
+
+    <datalist id="followup">
+      <option v-for="application in applications" v-bind:key="application.id">
+        {{ application.title }}
+      </option>
+    </datalist>
+
+    <span v-if="filterBy(applications, searchTerm, 'title').length == 0">
+      <p>No Results Found</p>
+    </span> 
+    
+    -->
 
     <div>
       <router-link to="/applications/new">Add Application</router-link>
@@ -111,6 +126,16 @@ export default {
       console.log("User: ", response.data.username);
       this.user = response.data.username;
     });
+  },
+
+  computed: {
+    filteredValues: function () {
+      return [
+        ...new Map(
+          this.applications.map((item) => [item[this.filterKey], item])
+        ).values(),
+      ];
+    },
   },
 
   methods: {
