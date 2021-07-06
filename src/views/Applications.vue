@@ -29,18 +29,19 @@
       <div id="inline">
         <label>Filter By Field:</label>
         <select v-model="filterKey">
-          <option value="" selectetd hidden>Field</option>
+          <option value="employer" selected disabled hidden>Field</option>
           <option value="followup">Followup</option>
           <option value="status">Status</option>
           <option value="method">Method</option>
         </select>
       </div>
       <div id="inline">
+        <label for="">Filter Value:</label>
         <select v-if="filterKey != employer" v-model="filterValue">
-          <option value="" disabled hidden>Value</option>
           <option
             v-for="application in filteredValues"
             v-bind:key="application.id"
+            v-bind:selected="index === 0"
           >
             {{ application[filterKey] }}
           </option>
@@ -48,22 +49,6 @@
       </div>
       <button v-on:click="resetFilter()">Reset Filter</button>
     </div>
-
-    <!-- refactor this to fit and have a v-if for each of the filter Keys based on what is selected -->
-    <!-- <input v-model="searchTerm" type="text" list="titles" />
-    <br />
-
-    <datalist id="followup">
-      <option v-for="application in applications" v-bind:key="application.id">
-        {{ application.title }}
-      </option>
-    </datalist>
-
-    <span v-if="filterBy(applications, searchTerm, 'title').length == 0">
-      <p>No Results Found</p>
-    </span> 
-    
-    -->
 
     <div>
       <router-link to="/applications/new">Add Application</router-link>
@@ -78,19 +63,19 @@
     >
       <!--List used here for formatting with bootstrap, or similar, for dynamic page sizing of application data-->
       <ul class="no-bullets">
-        <li><b>Employer: </b>{{ application.employer }}</li>
-        <li><b>Address: </b>{{ application.address }}</li>
-        <li><b>Position: </b>{{ application.position }}</li>
-        <li><b>Date Applied: </b>{{ application.date }}</li>
-        <li><b>Contact: </b>{{ application.contact }}</li>
-        <li><b>Contact Email: </b>{{ application.email }}</li>
-        <li><b>Followup: </b>{{ application.followup }}</li>
-        <li><b>Interviews: </b>{{ application.interviews }}</li>
-        <li><b>Status: </b>{{ application.status }}</li>
-        <li><b>Method: </b>{{ application.method }}</li>
-        <li><b>Enthusiasm: </b>{{ application.enthusiasm }}</li>
-        <li><b>Confidence: </b>{{ application.confidence }}</li>
-        <li><b>Notes: </b>{{ application.notes }}</li>
+        <li id="inline"><b>Employer: </b>{{ application.employer }}</li>
+        <li id="inline"><b>Address: </b>{{ application.address }}</li>
+        <li id="inline"><b>Position: </b>{{ application.position }}</li>
+        <li id="inline"><b>Date Applied: </b>{{ application.date }}</li>
+        <li id="inline"><b>Contact: </b>{{ application.contact }}</li>
+        <li id="inline"><b>Contact Email: </b>{{ application.email }}</li>
+        <li id="inline"><b>Followup: </b>{{ application.followup }}</li>
+        <li id="inline"><b>Interviews: </b>{{ application.interviews }}</li>
+        <li id="inline"><b>Status: </b>{{ application.status }}</li>
+        <li id="inline"><b>Method: </b>{{ application.method }}</li>
+        <li id="inline"><b>Enthusiasm: </b>{{ application.enthusiasm }}</li>
+        <li id="inline"><b>Confidence: </b>{{ application.confidence }}</li>
+        <li id="inline"><b>Notes: </b>{{ application.notes }}</li>
       </ul>
       <router-link :to="`/applications/${application.id}/edit`"
         >Edit</router-link
@@ -110,7 +95,7 @@ export default {
     return {
       applications: [],
       sortKey: "",
-      filterKey: "employer",
+      filterKey: "id",
       filterValue: "",
       sortOrder: 1,
       user: "",
