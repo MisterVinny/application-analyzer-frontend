@@ -4,7 +4,7 @@
       <h1>Welcome, {{ user }}</h1>
       <h2>Here are your applications so far:</h2>
       <div id="inline">
-        <label for="cars">Sort By:</label>
+        <label>Sort By:</label>
         <select v-model="sortKey">
           <option value="employer">Employer</option>
           <option value="position">Position</option>
@@ -26,21 +26,39 @@
       </div>
     </div>
 
-    <!-- <div>
-      <input v-model="sortKey" type="text" list="methods" />
-      <br />
+    <div>
+      <div id="inline">
+        <label>Filter By:</label>
+        <select v-model="filterKey">
+          <option value="" selected disabled hidden>Field</option>
+          <option value="followup">Followup</option>
+          <option value="status">Status</option>
+          <option value="method">Method</option>
+        </select>
+      </div>
+      <div id="inline">
+        <select v-model="filterValue">
+          <option value="" selected disabled hidden>Value</option>
+          <option
+            v-for="application in applications"
+            v-bind:key="application.id"
+          >
+            {{ application[filterKey] }}
+          </option>
+        </select>
+      </div>
+      <button v-on:click="resetFilter()">Reset Filter</button>
+    </div>
 
-      <datalist id="methods">
-        <option v-for="application in applications" v-bind:key="application.id">
-          {{ application.method }}
-        </option>
-      </datalist>
-    </div> -->
     <div>
       <router-link to="/applications/new">Add Application</router-link>
     </div>
     <div
-      v-for="application in orderBy(applications, sortKey, sortOrder)"
+      v-for="application in filterBy(
+        orderBy(applications, sortKey, sortOrder),
+        filterValue,
+        filterKey
+      )"
       v-bind:key="application.id"
     >
       <!--List used here for formatting with bootstrap, or similar, for dynamic page sizing of application data-->
@@ -77,7 +95,8 @@ export default {
     return {
       applications: [],
       sortKey: "",
-      filterTerm: "",
+      filterKey: "employer",
+      filterValue: "",
       sortOrder: 1,
       user: "",
     };
@@ -94,6 +113,11 @@ export default {
     });
   },
 
-  methods: {},
+  methods: {
+    resetFilter: function () {
+      this.filterKey = "employer";
+      this.filterValue = "";
+    },
+  },
 };
 </script>
