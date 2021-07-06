@@ -1,23 +1,19 @@
 <template>
   <div class="applications">
     <div>
-      <p>{{ sortKey }}</p>
+      <h1>Welcome, {{ user }}</h1>
+      <h2>Here are your applications so far:</h2>
       <div id="inline">
         <label for="cars">Sort By:</label>
         <select v-model="sortKey">
           <option value="employer">Employer</option>
-          <option value="address">Address</option>
           <option value="position">Position</option>
           <option value="date">Date</option>
           <option value="interviews">Interviews</option>
           <option value="status">Status</option>
-          <option value="status">Status</option>
-          <option value="method">Method</option>
           <option value="enthusiasm">Enthusiasm</option>
           <option value="confidence">Confidence</option>
           <option value="updated_at">Updated_at</option>
-          <option value="audi">Audi</option>
-          <option value="audi">Audi</option>
         </select>
       </div>
 
@@ -83,6 +79,7 @@ export default {
       sortKey: "",
       filterTerm: "",
       sortOrder: 1,
+      user: "",
     };
   },
 
@@ -90,6 +87,10 @@ export default {
     axios.get("/applications").then((response) => {
       console.log("Applications array", response.data);
       this.applications = response.data;
+    });
+    axios.get("/users/self").then((response) => {
+      console.log("User: ", response.data.username);
+      this.user = response.data.username;
     });
   },
 

@@ -7,12 +7,12 @@
         <p>{{ userDetails.username }}</p>
       </div>
       <div>
-        <h5>Address</h5>
-        <p>{{ userDetails.address }}</p>
-      </div>
-      <div>
         <h5>Email</h5>
         <p>{{ userDetails.email }}</p>
+      </div>
+      <div>
+        <h5>Address</h5>
+        <p>{{ userDetails.address }}</p>
       </div>
       <button v-on:click="toggleEdit()">Edit User Details</button>
     </div>
@@ -24,12 +24,12 @@
           <input type="text" v-model="editUserParams.username" />
         </div>
         <div>
-          <h5>Address</h5>
-          <textarea type="text" v-model="editUserParams.address" />
-        </div>
-        <div>
           <h5>Email</h5>
           <input type="text" v-model="editUserParams.email" />
+        </div>
+        <div>
+          <h5>Address</h5>
+          <textarea type="text" v-model="editUserParams.address" />
         </div>
         <div>
           <button v-on:click="toggleEdit()">Cancel</button>
