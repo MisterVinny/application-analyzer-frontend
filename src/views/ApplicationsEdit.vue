@@ -144,6 +144,7 @@ export default {
     return {
       errors: [],
       updateApplicationParams: {},
+      statusChoices: ["pending", "rejected", "refused-offer", "accepted-offer"],
     };
   },
 
