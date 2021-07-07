@@ -32,7 +32,7 @@
       <div id="inline">
         <label>Filter By Field:</label>
         <select v-model="filterKey">
-          <option value="employer" selected disabled hidden>Field</option>
+          <option value="" selected disabled hidden>Field</option>
           <option value="followup">Followup</option>
           <option value="status">Status</option>
           <option value="method">Method</option>
@@ -40,11 +40,10 @@
       </div>
       <div id="inline">
         <label for="">Filter Value:</label>
-        <select v-if="filterKey != employer" v-model="filterValue">
+        <select v-model="filterValue">
           <option
             v-for="application in filteredValues"
             v-bind:key="application.id"
-            v-bind:selected="index === 0"
           >
             {{ application[filterKey] }}
           </option>
