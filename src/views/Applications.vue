@@ -9,12 +9,12 @@
         <label>Sort By:</label>
         <select v-model="sortKey">
           <option value="employer">Employer</option>
-          <option value="position">Position</option>
+          <option value="distance">Distance</option>
           <option value="date">Date</option>
+          <option value="updated_at">Last Updated</option>
           <option value="interviews">Interviews</option>
           <option value="enthusiasm">Enthusiasm</option>
           <option value="confidence">Confidence</option>
-          <option value="updated_at">Last Updated</option>
         </select>
       </div>
 
@@ -77,7 +77,9 @@
       <!--List used here for formatting with bootstrap, or similar, for dynamic page sizing of application data-->
       <ul class="no-bullets">
         <li id="inline"><b>Employer: </b>{{ application.employer }}</li>
-        <li id="inline"><b>Address: </b>{{ application.address }}</li>
+        <li id="inline">
+          <b>Distance: </b>{{ Math.round(application.distance) }} miles
+        </li>
         <li id="inline"><b>Position: </b>{{ application.position }}</li>
         <li id="inline"><b>Date Applied: </b>{{ application.date }}</li>
         <li id="inline"><b>Contact: </b>{{ application.contact }}</li>
