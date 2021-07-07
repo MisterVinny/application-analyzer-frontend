@@ -78,11 +78,15 @@
       </div>
       <div class="form-group">
         <label>Status : </label>
-        <input
+        <select
           type="text"
           class="form-control"
           v-model="updateApplicationParams.status"
-        />
+        >
+          <option v-for="choice in statusChoices" v-bind:key="choice.id">
+            {{ choice }}
+          </option>
+        </select>
       </div>
       <div class="form-group">
         <label>Method : </label>
@@ -144,7 +148,7 @@ export default {
     return {
       errors: [],
       updateApplicationParams: {},
-      statusChoices: ["pending", "rejected", "refused-offer", "accepted-offer"],
+      statusChoices: ["pending", "accepted-offer", "refused-offer", "rejected"],
     };
   },
 
