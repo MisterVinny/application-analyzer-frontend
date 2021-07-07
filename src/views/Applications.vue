@@ -2,7 +2,9 @@
   <div class="applications">
     <div>
       <h1>Welcome, {{ user }}</h1>
-      <h2>Here are your applications so far:</h2>
+      <h2>Here are your {{ applications.length }} applications:</h2>
+
+      <!--SORT functionality goes here - for the dropdown and order choices.-->
       <div id="inline">
         <label>Sort By:</label>
         <select v-model="sortKey">
@@ -25,6 +27,7 @@
       </div>
     </div>
 
+    <!--FILTER field and value functionality goes here as well as reset filter.-->
     <div>
       <div id="inline">
         <label>Filter By Field:</label>
@@ -50,12 +53,22 @@
       <button v-on:click="resetFilter()">Reset Filter</button>
     </div>
 
+    <!--SEARCH field, filter is the innermost base filter.-->
+    <div>
+      <h3>Search:</h3>
+      <input v-model="searchTerm" type="text" />
+      <br />
+    </div>
+
+    <!--NEW application - links to ApplicationsNew view.-->
     <div>
       <router-link to="/applications/new">Add Application</router-link>
     </div>
+
+    <!--INDEX of all applications taking into account sort and filter actions.-->
     <div
       v-for="application in filterBy(
-        orderBy(applications, sortKey, sortOrder),
+        filterBy(orderBy(applications, sortKey, sortOrder), searchTerm),
         filterValue,
         filterKey
       )"
@@ -81,6 +94,12 @@
         >Edit</router-link
       >
     </div>
+    <div>
+      <!--If no results found for search, lets user know.-->
+      <span v-if="filterBy(applications, searchTerm).length == 0">
+        <p>No Results Found</p>
+      </span>
+    </div>
   </div>
 </template>
 
@@ -94,6 +113,7 @@ export default {
   data: function () {
     return {
       applications: [],
+      searchTerm: "",
       sortKey: "",
       filterKey: "id",
       filterValue: "",
