@@ -13,12 +13,15 @@
         />
       </div>
       <div class="form-group">
-        <label>Address : </label>
-        <input
-          type="text"
-          class="form-control"
-          v-model="updateApplicationParams.address"
-        />
+        <label>Address</label>
+        <div>
+          <label>City : </label>
+          <input type="text" class="form-control" v-model="city" />
+          <label>State : </label>
+          <input type="text" class="form-control" v-model="state" />
+          <label>Zip : </label>
+          <input type="text" class="form-control" v-model="zip" />
+        </div>
       </div>
       <div class="form-group">
         <label>Position : </label>
@@ -149,6 +152,9 @@ export default {
       errors: [],
       updateApplicationParams: {},
       statusChoices: ["pending", "accepted-offer", "refused-offer", "rejected"],
+      city: "",
+      state: "",
+      zip: "",
     };
   },
 
@@ -161,6 +167,8 @@ export default {
 
   methods: {
     updateApplication: function () {
+      this.updateApplicationParams.address =
+        this.city + " , " + this.state + " , " + this.zip + ", United States";
       axios
         .patch(
           `/applications/${this.$route.params.id}`,
