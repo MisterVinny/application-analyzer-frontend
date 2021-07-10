@@ -28,20 +28,32 @@
     </div>
 
     <hr />
-    <!--FILTER field and value functionality goes here as well as reset filter.-->
+    <!--FILTERING using dropdowns-->
     <div>
+      <div id="inline"><h3>Filter By:</h3></div>
       <div id="inline">
-        <label>Filter By Field:</label>
-        <select v-model="filterKey">
-          <option value="" selected disabled hidden>Field</option>
-          <option value="followup">Followup</option>
-          <option value="status">Status</option>
-          <option value="method">Method</option>
+        <label>Followup:</label>
+        <select v-model="filterFollowup">
+          <option value="" selected>None</option>
+          <option value="true">True</option>
+          <option value="false">False</option>
         </select>
       </div>
       <div id="inline">
-        <label for="">Filter Value:</label>
-        <select v-model="filterValue">
+        <label>Status:</label>
+        <select v-model="filterStatus">
+          <option value="" selected>None</option>
+          <option value="pending">Pending</option>
+          <option value="in-contact">In-contact</option>
+          <option value="refused-offer">Refused-offer</option>
+          <option value="rejected">Rejected</option>
+          <option value="accepted-offer">Accepted-offer</option>
+        </select>
+      </div>
+      <div id="inline">
+        <label>Method:</label>
+        <select v-model="filterMethod">
+          <option value="" selected>None</option>
           <option
             v-for="application in filteredValues"
             v-bind:key="application.id"
@@ -50,25 +62,29 @@
           </option>
         </select>
       </div>
-      <button v-on:click="resetFilter()">Reset Filter</button>
+      <!--            DISTANCE filtering          -->
+      <div id="inline">
+        <label>Distance Minimum:</label>
+        <select v-model="distanceMin">
+          <option value="0" selected>Min</option>
+          <option value="500">500</option>
+          <option value="1000">1000</option>
+          <option value="2500">2500</option>
+        </select>
+      </div>
+      <div id="inline">
+        <label>Distance Maximum:</label>
+        <select v-model="distanceMax">
+          <option value="25000" selected>Max</option>
+          <option value="10000">10000</option>
+          <option value="5000">5000</option>
+          <option value="2500">2500</option>
+        </select>
+      </div>
+      <div id="inline">
+        <button v-on:click="resetFilter()">Reset Filters</button>
+      </div>
     </div>
-
-    <hr />
-    <!--NEW FILTERING-->
-    <!-- <label>Followup: </label>
-    <input type="checkbox" id="checkbox" v-model="checked" />
-    <label for="checkbox">{{ checked }}</label> -->
-    <label>Followup: </label>
-    <input type="radio" value="true" v-model="filterFollowup" />
-    <label for="true">True</label>
-    <br />
-    <input type="radio" value="false" v-model="filterFollowup" />
-    <label for="two">False</label>
-    <br />
-    <input type="radio" value="" v-model="filterFollowup" />
-    <label for="none">None</label>
-    <br />
-    <span>Picked: {{ filterFollowup }}</span>
 
     <hr />
     <!--SEARCH field, filter is the innermost base filter.-->
@@ -86,9 +102,22 @@
     <!--INDEX of all applications taking into account sort and filter actions.-->
     <div
       v-for="application in filterBy(
-        filterBy(orderBy(applications, sortKey, sortOrder), searchTerm),
-        filterFollowup,
-        'followup'
+        filterBy(
+          filterBy(
+            filterBy(
+              filterBy(orderBy(applications, sortKey, sortOrder), searchTerm),
+              filterFollowup,
+              'followup'
+            ),
+            filterStatus,
+            'status'
+          ),
+          filterMethod,
+          'method'
+        ),
+        (application) =>
+          application.distance >= this.distanceMin &&
+          application.distance < this.distanceMax
       )"
       v-bind:key="application.id"
     >
@@ -139,11 +168,16 @@ export default {
   data: function () {
     return {
       applications: [],
-      checked: false,
       searchTerm: "",
       sortKey: "",
-      filterValue: "",
+      filterKey: "method",
       filterFollowup: "",
+      filterStatus: "",
+      filterMethod: "",
+      filterDistance: "",
+      distanceMin: 0,
+      distanceMax: 25000,
+      distanceSelected: "",
       sortOrder: 1,
       user: "",
     };
@@ -172,8 +206,12 @@ export default {
 
   methods: {
     resetFilter: function () {
-      this.filterKey = "employer";
-      this.filterValue = "";
+      this.filterFollowup = "";
+      this.filterStatus = "";
+      this.filterMethod = "";
+      this.filterDistance = "";
+      this.distanceMin = 0;
+      this.distanceMax = 25000;
     },
   },
 };

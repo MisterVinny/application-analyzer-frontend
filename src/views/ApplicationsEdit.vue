@@ -151,7 +151,13 @@ export default {
     return {
       errors: [],
       updateApplicationParams: {},
-      statusChoices: ["pending", "accepted-offer", "refused-offer", "rejected"],
+      statusChoices: [
+        "pending",
+        "in-contact",
+        "accepted-offer",
+        "refused-offer",
+        "rejected",
+      ],
       city: "",
       state: "",
       zip: "",
