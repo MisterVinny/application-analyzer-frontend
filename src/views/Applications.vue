@@ -27,6 +27,7 @@
       </div>
     </div>
 
+    <hr />
     <!--FILTER field and value functionality goes here as well as reset filter.-->
     <div>
       <div id="inline">
@@ -52,6 +53,24 @@
       <button v-on:click="resetFilter()">Reset Filter</button>
     </div>
 
+    <hr />
+    <!--NEW FILTERING-->
+    <!-- <label>Followup: </label>
+    <input type="checkbox" id="checkbox" v-model="checked" />
+    <label for="checkbox">{{ checked }}</label> -->
+    <label>Followup: </label>
+    <input type="radio" value="true" v-model="filterFollowup" />
+    <label for="true">True</label>
+    <br />
+    <input type="radio" value="false" v-model="filterFollowup" />
+    <label for="two">False</label>
+    <br />
+    <input type="radio" value="" v-model="filterFollowup" />
+    <label for="none">None</label>
+    <br />
+    <span>Picked: {{ filterFollowup }}</span>
+
+    <hr />
     <!--SEARCH field, filter is the innermost base filter.-->
     <div>
       <h3>Search:</h3>
@@ -68,28 +87,32 @@
     <div
       v-for="application in filterBy(
         filterBy(orderBy(applications, sortKey, sortOrder), searchTerm),
-        filterValue,
-        filterKey
+        filterFollowup,
+        'followup'
       )"
       v-bind:key="application.id"
     >
       <!--List used here for formatting with bootstrap, or similar, for dynamic page sizing of application data-->
       <ul class="no-bullets">
-        <li id="inline"><b>Employer: </b>{{ application.employer }}</li>
-        <li id="inline">
-          <b>Distance: </b>{{ Math.round(application.distance) }} miles
-        </li>
-        <li id="inline"><b>Position: </b>{{ application.position }}</li>
-        <li id="inline"><b>Date Applied: </b>{{ application.date }}</li>
-        <li id="inline"><b>Contact: </b>{{ application.contact }}</li>
-        <li id="inline"><b>Contact Email: </b>{{ application.email }}</li>
-        <li id="inline"><b>Followup: </b>{{ application.followup }}</li>
-        <li id="inline"><b>Interviews: </b>{{ application.interviews }}</li>
-        <li id="inline"><b>Status: </b>{{ application.status }}</li>
-        <li id="inline"><b>Method: </b>{{ application.method }}</li>
-        <li id="inline"><b>Enthusiasm: </b>{{ application.enthusiasm }}</li>
-        <li id="inline"><b>Confidence: </b>{{ application.confidence }}</li>
-        <li id="inline"><b>Notes: </b>{{ application.notes }}</li>
+        <div>
+          <p id="inline"><b>Employer: </b>{{ application.employer }}</p>
+          <p id="inline"><b>Position: </b>{{ application.position }}</p>
+          <p id="inline"><b>Date Applied: </b>{{ application.date }}</p>
+          <p id="inline">
+            <b>Distance: </b>{{ Math.round(application.distance) }} miles
+          </p>
+        </div>
+        <div>
+          <p id="inline"><b>Method: </b>{{ application.method }}</p>
+          <p id="inline"><b>Status: </b>{{ application.status }}</p>
+          <p id="inline"><b>Contact: </b>{{ application.contact }}</p>
+          <p id="inline"><b>Contact Email: </b>{{ application.email }}</p>
+        </div>
+        <p id="inline"><b>Followup: </b>{{ application.followup }}</p>
+        <p id="inline"><b>Interviews: </b>{{ application.interviews }}</p>
+        <p id="inline"><b>Enthusiasm: </b>{{ application.enthusiasm }}</p>
+        <p id="inline"><b>Confidence: </b>{{ application.confidence }}</p>
+        <p id="inline"><b>Notes: </b>{{ application.notes }}</p>
       </ul>
       <router-link :to="`/applications/${application.id}/edit`"
         >Edit</router-link
@@ -101,6 +124,8 @@
         <p>No Results Found</p>
       </span>
     </div>
+
+    <!--Test Tables-->
   </div>
 </template>
 
@@ -114,10 +139,11 @@ export default {
   data: function () {
     return {
       applications: [],
+      checked: false,
       searchTerm: "",
       sortKey: "",
-      filterKey: "id",
       filterValue: "",
+      filterFollowup: "",
       sortOrder: 1,
       user: "",
     };

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <title>Swarm Plot</title>
+  </head>
+  <body>
+    <p>{{theData}}</p>
+  </body>
+</html>
+
+<script type="module">
+  import * as d3 from "https://cdn.skypack.dev/d3@7";
+  const div = d3.selectAll("div");
+
+  const width = 1920;
+  const height = 1080;
+  let json = d3
+    .select("body")
+    .append("svg")
+    .attr("height", height)
+    .attr("width", width);
+
+  d3.json("/d3-data/d3.json").then((data) => {
+    // the rest of our d3 code will go here
+    // a Set is a convenient way to remove duplicates
+    let sectors = Array.from(new Set(data.map((d) => d.Sector)));
+    // we'll separate our parallel swarms by 150 pixels each
+    let xCoords = sectors.map((d, i) => 150 + i * 150);
+    let xScale = d3.scaleOrdinal().domain(sectors).range(xCoords);
+
+    // Y-Scale
+    let yScale = d3
+      .scaleLinear()
+      .domain(d3.extent(data.map((d) => +d["distance"])))
+      .range([height - 50, 50]); // using 50 just to provide some margin at the top and bottom
+
+    // Color Scale: each sector gets its own color
+    let color = d3.scaleOrdinal().domain(sectors).range(d3.schemePaired);
+
+    // Maps an attribute to the circle radius
+    let enthusiasm = d3.extent(data.map((d) => d["enthusiasm"]));
+    // we'll use the square root of market cap for a better scale
+    enthusiasm = enthusiasm.map((d) => Math.sqrt(d));
+    // our circle radii will range from 5-30px
+    let size = d3.scaleLinear().domain(enthusiasm).range([5, 30]);
+
+    // Adds circle elements
+    svg
+      .selectAll(".circ")
+      .data(data)
+      .enter()
+      .append("circle")
+      .attr("class", "circ")
+      .attr("stroke", "black")
+      .attr("fill", (d) => color(d.Sector))
+      .attr("r", (d) => size(Math.sqrt(d["Market Cap"])))
+      .attr("cx", (d) => xScale(d.Sector))
+      .attr("cy", (d) => yScale(d.Return));
+  });
+  theData = data;
+</script>
