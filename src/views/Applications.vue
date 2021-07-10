@@ -62,6 +62,7 @@
           </option>
         </select>
       </div>
+      <br />
       <!--            DISTANCE filtering          -->
       <div id="inline">
         <label>Distance Minimum:</label>
