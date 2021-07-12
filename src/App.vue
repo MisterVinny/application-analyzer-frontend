@@ -1,43 +1,113 @@
 <template>
   <div id="app">
     <div id="nav">
-      <span v-if="isLoggedIn()">
-        <router-link to="/profile">Profile</router-link> ||
-        <router-link to="/applications">Applications</router-link> ||
-        <router-link to="/analysis">Analysis</router-link> ||
-        <router-link to="/logout">Logout</router-link>
-      </span>
+      <!-- Navbar -->
+      <nav
+        class="
+          py-3
+          navbar navbar-expand-lg navbar-light
+          bg-white
+          shadow
+          navbar-autohide
+        "
+      >
+        <div class="container">
+          <!-- brand / logo -->
+          <a class="navbar-brand" href="index.html">
+            <img
+              src="/images/logo/logo_dark.png"
+              width="136"
+              height="40"
+              alt="..."
+            />
+          </a>
+
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarMainContent"
+            aria-controls="navbarMainContent"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+
+          <div class="collapse navbar-collapse" id="navbarMainContent">
+            <!-- mobile close -->
+            <div
+              class="
+                d-flex d-lg-none
+                pb-3
+                justify-content-between
+                align-items-center
+              "
+            >
+              <img
+                src="/images/logo/logo_dark.png"
+                width="136"
+                height="40"
+                alt="..."
+              />
+              <button
+                class="navbar-toggler"
+                type="dropdown"
+                data-bs-toggle="collapse"
+                data-bs-target="#navbarMainContent"
+                aria-controls="navbarMainContent"
+                aria-expanded="false"
+                aria-label="Toggle navigation"
+              >
+                <svg
+                  height="28px"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <line x1="18" y1="6" x2="6" y2="18"></line>
+                  <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+              </button>
+            </div>
+
+            <!--######################### NEW DROPDOWN ##############################-->
+            <ul class="navbar-nav ms-auto">
+              <li v-if="isLoggedIn()">
+                <router-link class="dropdown-item" to="/applications"
+                  >Applications</router-link
+                >
+              </li>
+              <li v-if="isLoggedIn()">
+                <router-link class="dropdown-item" to="/analysis"
+                  >Analysis</router-link
+                >
+              </li>
+              <li v-if="isLoggedIn()">
+                <router-link class="dropdown-item" to="/profile"
+                  >Profile</router-link
+                >
+              </li>
+              <li v-if="isLoggedIn()">
+                <router-link class="dropdown-item" to="/logout"
+                  >Logout</router-link
+                >
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+      <!-- /Navbar -->
+      <router-view />
     </div>
-    <router-view />
   </div>
 </template>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-
-#nav {
-  padding: 30px;
-}
-
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
-}
-
-li.text-danger {
-  color: red;
-}
-
 ul.no-bullets {
   list-style-type: none;
   padding: 0;
