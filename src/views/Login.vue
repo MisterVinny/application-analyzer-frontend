@@ -65,23 +65,6 @@
                   v-model="password"
                 />
                 <label for="account_passwd">Password</label>
-
-                <!-- forgot -->
-                <a
-                  href="account-password-classic.html"
-                  class="
-                    btn
-                    bg-transparent
-                    shadow-none
-                    link-muted
-                    position-absolute
-                    top-0
-                    end-0
-                    m-1
-                  "
-                >
-                  Forgot
-                </a>
               </div>
 
               <!-- submit button -->
