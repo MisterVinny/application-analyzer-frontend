@@ -95,18 +95,6 @@
   </div>
 </template>
 
-<style>
-ul.no-bullets {
-  list-style-type: none;
-  padding: 0;
-  margin: 0;
-}
-
-#inline {
-  display: inline-block;
-}
-</style>
-
 <script>
 export default {
   data: function () {
