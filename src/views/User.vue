@@ -1,43 +1,108 @@
 <template>
   <div class="profile">
-    <div v-if="editToggle === false">
-      <h1>Profile</h1>
-      <div>
-        <h5>Username</h5>
-        <p>{{ userDetails.username }}</p>
-      </div>
-      <div>
-        <h5>Email</h5>
-        <p>{{ userDetails.email }}</p>
-      </div>
-      <div>
-        <h5>Address</h5>
-        <p>{{ userDetails.address }}</p>
-      </div>
-      <button v-on:click="toggleEdit()">Edit User Details</button>
-    </div>
-    <div v-else>
-      <h1>Edit Profile</h1>
-      <form v-on:submit.prevent="updateUser()">
-        <div>
-          <h5>Username</h5>
-          <input type="text" v-model="editUserParams.username" />
+    <!-- New Profile-->
+    <div class="container position-relative mt-n5 mt-sm-n6 pt-8">
+      <div class="bg-white rounded shadow-xs-secondary p-4 py-sm-5">
+        <!--shows as default user profile view-->
+        <div class="row g-4 align-items-center" v-if="editToggle === false">
+          <div class="col-md-4">
+            <div class="d-inline-grid gap-auto-3 text-gray-500">
+              <div class="my-2">
+                <h2 class="h5 fw-medium mb-0 text-gray-800">Username</h2>
+                <p class="m-0">{{ userDetails.username }}</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="d-inline-grid gap-auto-3 text-gray-500">
+              <div class="my-2">
+                <h2 class="h5 fw-medium mb-0 text-gray-800">Address</h2>
+                <p class="m-0">{{ userDetails.address }}</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="d-inline-grid gap-auto-3 text-gray-500">
+              <div class="my-2">
+                <h2 class="h5 fw-medium mb-0 text-gray-800">Email</h2>
+                <p class="m-0">{{ userDetails.email }}</p>
+              </div>
+            </div>
+          </div>
         </div>
-        <div>
-          <h5>Email</h5>
-          <input type="text" v-model="editUserParams.email" />
+
+        <!--Shows for editing user details-->
+        <div class="row g-4 align-items-center" v-else>
+          <!--user name field-->
+          <div class="col-md-4">
+            <div class="d-inline-grid gap-auto-3 text-gray-500">
+              <div class="my-2">
+                <h2 class="h5 fw-medium mb-0 text-gray-800">Username</h2>
+                <input type="text" v-model="editUserParams.username" />
+              </div>
+            </div>
+          </div>
+
+          <!--user address field-->
+          <div class="col-md-4">
+            <div class="d-inline-grid gap-auto-3 text-gray-500">
+              <div class="my-2">
+                <h2 class="h5 fw-medium mb-0 text-gray-800">Address</h2>
+                <textarea type="text" v-model="editUserParams.address" />
+              </div>
+            </div>
+          </div>
+
+          <!--user email field-->
+          <div class="col-md-4">
+            <div class="d-inline-grid gap-auto-3 text-gray-500">
+              <div class="my-2">
+                <h2 class="h5 fw-medium mb-0 text-gray-800">Email</h2>
+                <input type="text" v-model="editUserParams.email" />
+              </div>
+            </div>
+          </div>
         </div>
-        <div>
-          <h5>Address</h5>
-          <textarea type="text" v-model="editUserParams.address" />
+
+        <!--buttons for edit update and cancel-->
+        <div class="row g-4 justify-content-left">
+          <!--single button to edit user-->
+          <div class="col-md-6 pt-5" v-if="editToggle === false">
+            <button
+              type="button"
+              class="btn btn-outline-secondary btn-sm"
+              v-on:click="toggleEdit()"
+            >
+              Edit User
+            </button>
+          </div>
+          <!--buttons to cancel edit, update user, and delete user-->
+          <div class="col-md-6 d-inline-grid gap-auto-3 pt-5" v-else>
+            <button
+              type="button"
+              class="btn btn-outline-secondary btn-sm"
+              v-on:click="toggleEdit()"
+            >
+              Cancel
+            </button>
+            <button
+              type="button"
+              class="btn btn-outline-secondary btn-sm"
+              v-on:click="updateUser()"
+            >
+              Update User
+            </button>
+            <button
+              type="button"
+              class="btn btn-outline-secondary btn-sm"
+              v-on:click="deleteUser()"
+            >
+              Delete User
+            </button>
+          </div>
         </div>
-        <div>
-          <button v-on:click="toggleEdit()">Cancel</button>
-          <button v-on:click="updateUser()">Update User</button>
-        </div>
-      </form>
-      <div>
-        <button v-on:click="deleteUser()">Delete User</button>
       </div>
     </div>
   </div>
