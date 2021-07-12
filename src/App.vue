@@ -13,14 +13,8 @@
       >
         <div class="container">
           <!-- brand / logo -->
-          <a class="navbar-brand" href="index.html">
-            <img
-              src="/images/logo/logo_dark.png"
-              width="136"
-              height="40"
-              alt="..."
-            />
-          </a>
+          <img src="https://img.icons8.com/clouds/100/000000/code.png" />
+          <h1>Application Hub</h1>
 
           <button
             class="navbar-toggler"
@@ -44,12 +38,8 @@
                 align-items-center
               "
             >
-              <img
-                src="/images/logo/logo_dark.png"
-                width="136"
-                height="40"
-                alt="..."
-              />
+              <img src="https://img.icons8.com/clouds/100/000000/code.png" />
+              <h1>Application Hub</h1>
               <button
                 class="navbar-toggler"
                 type="dropdown"
