@@ -3,6 +3,7 @@
     <div id="nav">
       <!-- Navbar -->
       <nav
+        v-if="isLoggedIn()"
         class="
           py-3
           navbar navbar-expand-lg navbar-light
@@ -14,7 +15,6 @@
         <div class="container">
           <!-- brand / logo -->
           <img src="https://img.icons8.com/clouds/100/000000/code.png" />
-          <h1>Application Hub</h1>
 
           <button
             class="navbar-toggler"
@@ -39,7 +39,6 @@
               "
             >
               <img src="https://img.icons8.com/clouds/100/000000/code.png" />
-              <h1>Application Hub</h1>
               <button
                 class="navbar-toggler"
                 type="dropdown"
@@ -65,24 +64,23 @@
               </button>
             </div>
 
-            <!--######################### NEW DROPDOWN ##############################-->
             <ul class="navbar-nav ms-auto">
-              <li v-if="isLoggedIn()">
+              <li>
                 <router-link class="dropdown-item" to="/applications"
                   >Applications</router-link
                 >
               </li>
-              <li v-if="isLoggedIn()">
+              <li>
                 <router-link class="dropdown-item" to="/analysis"
                   >Analysis</router-link
                 >
               </li>
-              <li v-if="isLoggedIn()">
+              <li>
                 <router-link class="dropdown-item" to="/profile"
                   >Profile</router-link
                 >
               </li>
-              <li v-if="isLoggedIn()">
+              <li>
                 <router-link class="dropdown-item" to="/logout"
                   >Logout</router-link
                 >
