@@ -9,14 +9,7 @@
     <!--FILTERING using dropdowns-->
     <div>
       <div id="inline"><h3>Filter By:</h3></div>
-      <div id="inline">
-        <label>Followup:</label>
-        <select v-model="filterFollowup">
-          <option value="" selected>None</option>
-          <option value="true">True</option>
-          <option value="false">False</option>
-        </select>
-      </div>
+
       <div id="inline">
         <label>Status:</label>
         <select v-model="filterStatus">
@@ -82,7 +75,7 @@
     <div class="container">
       <div class="row g-4">
         <!-- sidebar -->
-        <div class="col-sm-12 col-md-12 col-lg-3">
+        <div class="col-sm-12 col-md-12 col-lg-2">
           <!-- Categories -->
           <div class="mb-5 px-3 py-4 bg-gray-200 rounded">
             <ul class="nav-deep p-0 m-0">
@@ -339,8 +332,9 @@
         </div>
 
         <!-- applications -->
-        <div class="col-sm-12 col-md-12 col-lg-9">
-          <!-- additional filters -->
+
+        <div class="col-sm-12 col-md-12 col-lg-10">
+          <!-- sorting applications as well as direction -->
           <div class="d-flex justify-content-between mb-4">
             <div class="position-relative">
               <select v-model="sortKey" class="form-select form-select-sm">
@@ -362,14 +356,108 @@
               <input type="radio" v-model="sortOrder" v-bind:value="-1" />
               <label>Descending</label>
             </div>
-          </div>
 
-          <!--INDEX of all applications taking into account sort and filter actions.-->
+            <!-- filtering dropdown menu-->
+            <form method="get" class="dropdown">
+              <input
+                type="text"
+                class="dropdown-toggle form-control"
+                data-bs-toggle="dropdown"
+                placeholder="Filters"
+              />
+
+              <div
+                class="
+                  dropdown-menu dropdown-clickable
+                  animate-fadein
+                  shadow-lg
+                  p-4
+                "
+              >
+                <h6 class="mb-4">Filter applications</h6>
+
+                <div class="row g-3">
+                  <div class="col-md-6">
+                    <div class="form-floating mb-3">
+                      <select
+                        class="form-select"
+                        id="filter-followup"
+                        aria-label="Followup"
+                        v-model="filterFollowup"
+                      >
+                        <option value="" selected>None</option>
+                        <option value="true">True</option>
+                        <option value="false">False</option>
+                      </select>
+                      <label for="filter-followup">Followup</label>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-floating mb-3">
+                      <select
+                        class="form-select"
+                        id="filter-brand"
+                        aria-label="Brand"
+                      >
+                        <option value="" selected>Any</option>
+                        <option value="1">Nike</option>
+                        <option value="2">Adidas</option>
+                        <option value="3">Loreal</option>
+                      </select>
+                      <label for="filter-brand">Brand</label>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-check d-block d-sm-inline-block me-2 mb-2">
+                  <input
+                    class="form-check-input form-check-input-primary"
+                    type="checkbox"
+                    value="1"
+                    id="filter-saleprice"
+                  />
+                  <label
+                    class="form-check-label user-select-none"
+                    for="filter-saleprice"
+                  >
+                    Sale price
+                  </label>
+                </div>
+
+                <div class="form-check d-block d-sm-inline-block me-2 mb-2">
+                  <input
+                    class="form-check-input form-check-input-primary"
+                    type="checkbox"
+                    value="1"
+                    id="filter-preorder"
+                  />
+                  <label
+                    class="form-check-label user-select-none"
+                    for="filter-preorder"
+                  >
+                    Allow preorders
+                  </label>
+                </div>
+
+                <div class="d-flex justify-content-between pt-2">
+                  <button type="submit" class="btn btn-sm btn-primary">
+                    Apply filter
+                  </button>
+                  <a href="#!" class="btn btn-sm btn-danger btn-soft float-end"
+                    >Reset</a
+                  >
+                </div>
+              </div>
+            </form>
+          </div>
+          <!-- end of sorting tools -->
+
+          <!-- display INDEX of all applications taking into account sort and filter actions.-->
           <!-- application list main div-->
           <div class="row g-1 g-md-4">
             <!-- application list div to be repeated with v-for -->
             <div
-              class="col-6 col-lg-4"
+              class="col-12 col-lg-6"
               v-for="application in filterBy(
                 filterBy(
                   filterBy(
@@ -404,29 +492,51 @@
                 <div class="card-body py-4">
                   <div class="d-block">
                     <span class="text-dark fw-medium"
-                      ><h3>{{ application.employer }}</h3></span
+                      ><h3>{{ application.employer }}</h3>
+                      <h6 class="text-gray-600">
+                        {{ application.position }}
+                      </h6></span
                     >
                   </div>
                   <ul>
                     <div>
-                      <p><b>Position: </b>{{ application.position }}</p>
-                      <p><b>Date Applied: </b>{{ application.date }}</p>
-                      <p>
+                      <p class="my-0 py-1">
+                        <b>Date Applied: </b>{{ application.date }}
+                      </p>
+                      <p class="my-0 py-1">
                         <b>Distance: </b
                         >{{ Math.round(application.distance) }} miles
                       </p>
                     </div>
                     <div>
-                      <p><b>Method: </b>{{ application.method }}</p>
-                      <p><b>Status: </b>{{ application.status }}</p>
-                      <p><b>Contact: </b>{{ application.contact }}</p>
-                      <p><b>Contact Email: </b>{{ application.email }}</p>
+                      <p class="my-0 py-1">
+                        <b>Method: </b>{{ application.method }}
+                      </p>
+                      <p class="my-0 py-1">
+                        <b>Status: </b>{{ application.status }}
+                      </p>
+                      <p class="my-0 py-1">
+                        <b>Contact: </b>{{ application.contact }}
+                      </p>
+                      <p class="my-0 py-1">
+                        <b>Contact Email: </b>{{ application.email }}
+                      </p>
                     </div>
-                    <p><b>Followup: </b>{{ application.followup }}</p>
-                    <p><b>Interviews: </b>{{ application.interviews }}</p>
-                    <p><b>Enthusiasm: </b>{{ application.enthusiasm }}</p>
-                    <p><b>Confidence: </b>{{ application.confidence }}</p>
-                    <p><b>Notes: </b>{{ application.notes }}</p>
+                    <p class="my-0 py-1">
+                      <b>Followup: </b>{{ application.followup }}
+                    </p>
+                    <p class="my-0 py-1">
+                      <b>Interviews: </b>{{ application.interviews }}
+                    </p>
+                    <p class="my-0 py-1">
+                      <b>Enthusiasm: </b>{{ application.enthusiasm }}
+                    </p>
+                    <p class="my-0 py-1">
+                      <b>Confidence: </b>{{ application.confidence }}
+                    </p>
+                    <p class="my-0 py-1">
+                      <b>Notes: </b>{{ application.notes }}
+                    </p>
                   </ul>
                   <router-link :to="`/applications/${application.id}/edit`"
                     >Edit</router-link
