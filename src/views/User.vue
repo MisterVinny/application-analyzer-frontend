@@ -39,8 +39,16 @@
           <div class="col-md-4">
             <div class="d-inline-grid gap-auto-3 text-gray-500">
               <div class="my-2">
-                <h2 class="h5 fw-medium mb-0 text-gray-800">Username</h2>
-                <input type="text" v-model="editUserParams.username" />
+                <div class="form-floating mb-4">
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="account_username"
+                    placeholder="Username"
+                    v-model="editUserParams.username"
+                  />
+                  <label for="account_username">Username</label>
+                </div>
               </div>
             </div>
           </div>
@@ -49,8 +57,18 @@
           <div class="col-md-4">
             <div class="d-inline-grid gap-auto-3 text-gray-500">
               <div class="my-2">
-                <h2 class="h5 fw-medium mb-0 text-gray-800">Address</h2>
-                <textarea type="text" v-model="editUserParams.address" />
+                <div class="form-floating mb-4">
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="account_address"
+                    placeholder="Address (City, State, Zip)"
+                    v-model="editUserParams.address"
+                  />
+                  <label for="account_address"
+                    >Address (City, State, Zip)</label
+                  >
+                </div>
               </div>
             </div>
           </div>
@@ -59,8 +77,16 @@
           <div class="col-md-4">
             <div class="d-inline-grid gap-auto-3 text-gray-500">
               <div class="my-2">
-                <h2 class="h5 fw-medium mb-0 text-gray-800">Email</h2>
-                <input type="text" v-model="editUserParams.email" />
+                <div class="form-floating mb-4">
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="account_email"
+                    placeholder="Email"
+                    v-model="editUserParams.email"
+                  />
+                  <label for="account_email">Email</label>
+                </div>
               </div>
             </div>
           </div>
@@ -69,7 +95,7 @@
         <!--buttons for edit update and cancel-->
         <div class="row g-4 justify-content-left">
           <!--single button to edit user-->
-          <div class="col-md-6 pt-5" v-if="editToggle === false">
+          <div class="col-md-8 pt-5" v-if="editToggle === false">
             <button
               type="button"
               class="btn btn-outline-secondary btn-sm"
@@ -79,7 +105,7 @@
             </button>
           </div>
           <!--buttons to cancel edit, update user, and delete user-->
-          <div class="col-md-6 d-inline-grid gap-auto-3 pt-5" v-else>
+          <div class="col-md-8 d-inline-grid gap-auto-3 pt-5" v-else>
             <button
               type="button"
               class="btn btn-outline-secondary btn-sm"

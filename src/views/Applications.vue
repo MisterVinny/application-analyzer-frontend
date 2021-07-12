@@ -3,28 +3,6 @@
     <div>
       <h1>Welcome, {{ user }}</h1>
       <h2>Here are your {{ applications.length }} applications:</h2>
-
-      <!--SORT functionality goes here - for the dropdown and order choices.-->
-      <div id="inline">
-        <label>Sort By:</label>
-        <select v-model="sortKey">
-          <option value="employer">Employer</option>
-          <option value="distance">Distance</option>
-          <option value="date">Date</option>
-          <option value="updated_at">Last Updated</option>
-          <option value="interviews">Interviews</option>
-          <option value="enthusiasm">Enthusiasm</option>
-          <option value="confidence">Confidence</option>
-        </select>
-      </div>
-
-      <div id="inline">
-        <label>Sort Order : </label>
-        <input type="radio" v-model="sortOrder" v-bind:value="1" />
-        <label></label>Ascending
-        <input type="radio" v-model="sortOrder" v-bind:value="-1" />
-        <label>Descending</label>
-      </div>
     </div>
 
     <hr />
@@ -100,62 +78,412 @@
       <router-link to="/applications/new">Add Application</router-link>
     </div>
 
-    <!--INDEX of all applications taking into account sort and filter actions.-->
-    <div
-      v-for="application in filterBy(
-        filterBy(
-          filterBy(
-            filterBy(
-              filterBy(orderBy(applications, sortKey, sortOrder), searchTerm),
-              filterFollowup,
-              'followup'
-            ),
-            filterStatus,
-            'status'
-          ),
-          filterMethod,
-          'method'
-        ),
-        (application) =>
-          application.distance >= this.distanceMin &&
-          application.distance < this.distanceMax
-      )"
-      v-bind:key="application.id"
-    >
-      <!--List used here for formatting with bootstrap, or similar, for dynamic page sizing of application data-->
-      <ul class="no-bullets">
-        <div>
-          <p id="inline"><b>Employer: </b>{{ application.employer }}</p>
-          <p id="inline"><b>Position: </b>{{ application.position }}</p>
-          <p id="inline"><b>Date Applied: </b>{{ application.date }}</p>
-          <p id="inline">
-            <b>Distance: </b>{{ Math.round(application.distance) }} miles
-          </p>
-        </div>
-        <div>
-          <p id="inline"><b>Method: </b>{{ application.method }}</p>
-          <p id="inline"><b>Status: </b>{{ application.status }}</p>
-          <p id="inline"><b>Contact: </b>{{ application.contact }}</p>
-          <p id="inline"><b>Contact Email: </b>{{ application.email }}</p>
-        </div>
-        <p id="inline"><b>Followup: </b>{{ application.followup }}</p>
-        <p id="inline"><b>Interviews: </b>{{ application.interviews }}</p>
-        <p id="inline"><b>Enthusiasm: </b>{{ application.enthusiasm }}</p>
-        <p id="inline"><b>Confidence: </b>{{ application.confidence }}</p>
-        <p id="inline"><b>Notes: </b>{{ application.notes }}</p>
-      </ul>
-      <router-link :to="`/applications/${application.id}/edit`"
-        >Edit</router-link
-      >
-    </div>
-    <div>
-      <!--If no results found for search, lets user know.-->
-      <span v-if="filterBy(applications, searchTerm).length == 0">
-        <p>No Results Found</p>
-      </span>
-    </div>
+    <!--Test New Page-->
+    <div class="container">
+      <div class="row g-4">
+        <!-- sidebar -->
+        <div class="col-sm-12 col-md-12 col-lg-3">
+          <!-- Categories -->
+          <div class="mb-5 px-3 py-4 bg-gray-200 rounded">
+            <ul class="nav-deep p-0 m-0">
+              <li class="nav-deep-item">
+                <a
+                  class="nav-deep-link"
+                  href="#nav-sidebar-components"
+                  data-bs-toggle="collapse"
+                  aria-expanded="true"
+                >
+                  <span class="fw-medium">Speakers</span>
+                </a>
 
-    <!--Test Tables-->
+                <ul id="nav-sidebar-components" class="nav-deep collapse show">
+                  <li class="nav-deep-item">
+                    <a class="nav-deep-link active" href="#!">Portable</a>
+                  </li>
+                  <li class="nav-deep-item">
+                    <a class="nav-deep-link" href="#!">Sport</a>
+                  </li>
+                  <li class="nav-deep-item">
+                    <a class="nav-deep-link" href="#!">Gifts</a>
+                  </li>
+                  <li class="nav-deep-item">
+                    <a class="nav-deep-link" href="#!">Accessories</a>
+                  </li>
+                </ul>
+              </li>
+              <li class="nav-deep-item">
+                <a class="nav-deep-link" href="#!">Home Amplifiers</a>
+              </li>
+              <li class="nav-deep-item">
+                <a class="nav-deep-link" href="#!">Car Speakers</a>
+              </li>
+              <li class="nav-deep-item">
+                <a class="nav-deep-link" href="#!">Car Speakers</a>
+              </li>
+            </ul>
+          </div>
+
+          <div class="mb-5">
+            <h3 class="h6">Availability</h3>
+            <div class="form-check user-select-none mb-2">
+              <input
+                class="form-check-input form-check-input-default"
+                type="checkbox"
+                value=""
+                id="filter-stock"
+              />
+              <label class="form-check-label" for="filter-stock">
+                In Stock
+              </label>
+            </div>
+            <div class="form-check user-select-none mb-2">
+              <input
+                class="form-check-input form-check-input-default"
+                type="checkbox"
+                value=""
+                id="filter-promotions"
+              />
+              <label class="form-check-label" for="filter-promotions">
+                Promotions
+              </label>
+            </div>
+          </div>
+
+          <div class="mb-5">
+            <h3 class="h6">Price</h3>
+            <div class="form-check user-select-none mb-2">
+              <input
+                class="form-check-input form-check-input-default"
+                type="checkbox"
+                value=""
+                id="filter-price-25"
+              />
+              <label class="form-check-label" for="filter-price-25">
+                Under $25
+              </label>
+            </div>
+            <div class="form-check user-select-none mb-2">
+              <input
+                class="form-check-input form-check-input-default"
+                type="checkbox"
+                value=""
+                id="filter-price-25-50"
+              />
+              <label class="form-check-label" for="filter-price-25-50">
+                25 - 50
+              </label>
+            </div>
+            <div class="form-check user-select-none mb-2">
+              <input
+                class="form-check-input form-check-input-default"
+                type="checkbox"
+                value=""
+                id="filter-price-50-100"
+              />
+              <label class="form-check-label" for="filter-price-50-100">
+                50 - 100
+              </label>
+            </div>
+            <div class="form-check user-select-none mb-2">
+              <input
+                class="form-check-input form-check-input-default"
+                type="checkbox"
+                value=""
+                id="filter-price-100-500"
+              />
+              <label class="form-check-label" for="filter-price-100-500">
+                100 - 500
+              </label>
+            </div>
+            <div class="form-check user-select-none mb-2">
+              <input
+                class="form-check-input form-check-input-default"
+                type="checkbox"
+                value=""
+                id="filter-price-500"
+              />
+              <label class="form-check-label" for="filter-price-500">
+                500 &amp; Above
+              </label>
+            </div>
+          </div>
+
+          <div class="mb-5">
+            <h3 class="h6">Size</h3>
+            <div class="form-check user-select-none mb-2">
+              <input
+                class="form-check-input form-check-input-default"
+                type="checkbox"
+                value=""
+                id="filter-size-xs"
+              />
+              <label class="form-check-label" for="filter-size-xs"> XS </label>
+            </div>
+            <div class="form-check user-select-none mb-2">
+              <input
+                class="form-check-input form-check-input-default"
+                type="checkbox"
+                value=""
+                id="filter-size-xl"
+                checked=""
+              />
+              <label class="form-check-label" for="filter-size-xl"> XL </label>
+            </div>
+            <div class="form-check user-select-none mb-2">
+              <input
+                class="form-check-input form-check-input-default"
+                type="checkbox"
+                value=""
+                id="filter-size-xxs"
+              />
+              <label class="form-check-label" for="filter-size-xxs">
+                XXS
+              </label>
+            </div>
+          </div>
+
+          <div class="mb-5">
+            <h3 class="h6">Brand</h3>
+            <div class="form-check user-select-none mb-2">
+              <input
+                class="form-check-input form-check-input-default"
+                type="checkbox"
+                value=""
+                id="filter-brand-1"
+              />
+              <label class="form-check-label" for="filter-brand-1">
+                Denon
+              </label>
+            </div>
+            <div class="form-check user-select-none mb-2">
+              <input
+                class="form-check-input form-check-input-default"
+                type="checkbox"
+                value=""
+                id="filter-brand-2"
+              />
+              <label class="form-check-label" for="filter-brand-2">
+                Panasonic
+              </label>
+            </div>
+            <div class="form-check user-select-none mb-2">
+              <input
+                class="form-check-input form-check-input-default"
+                type="checkbox"
+                value=""
+                id="filter-brand-3"
+              />
+              <label class="form-check-label" for="filter-brand-3">
+                Tetechnics
+              </label>
+            </div>
+            <div class="form-check user-select-none mb-2">
+              <input
+                class="form-check-input form-check-input-default"
+                type="checkbox"
+                value=""
+                id="filter-brand-4"
+              />
+              <label class="form-check-label" for="filter-brand-4">
+                Sony
+              </label>
+            </div>
+            <div class="form-check user-select-none mb-2">
+              <input
+                class="form-check-input form-check-input-default"
+                type="checkbox"
+                value=""
+                id="filter-brand-5"
+              />
+              <label class="form-check-label" for="filter-brand-5">
+                Pioneer
+              </label>
+            </div>
+
+            <div id="brands-more" class="collapse">
+              <div class="form-check user-select-none mb-2">
+                <input
+                  class="form-check-input form-check-input-default"
+                  type="checkbox"
+                  value=""
+                  id="filter-brand-6"
+                />
+                <label class="form-check-label" for="filter-brand-6">
+                  Teac
+                </label>
+              </div>
+              <div class="form-check user-select-none mb-2">
+                <input
+                  class="form-check-input form-check-input-default"
+                  type="checkbox"
+                  value=""
+                  id="filter-brand-7"
+                />
+                <label class="form-check-label" for="filter-brand-7">
+                  Yamaha
+                </label>
+              </div>
+            </div>
+
+            <a
+              href="#brands-more"
+              data-bs-toggle="collapse"
+              class="text-decoration-none text-muted"
+            >
+              <span class="group-switch">
+                <span>view more (2)</span>
+                <span>view less (2)</span>
+              </span>
+            </a>
+          </div>
+        </div>
+
+        <!-- applications -->
+        <div class="col-sm-12 col-md-12 col-lg-9">
+          <!-- additional filters -->
+          <div class="d-flex justify-content-between mb-4">
+            <div class="position-relative">
+              <select v-model="sortKey" class="form-select form-select-sm">
+                <option value="" selected hidden>Sort By</option>
+                <option value="employer">Employer</option>
+                <option value="distance">Distance</option>
+                <option value="date">Date</option>
+                <option value="updated_at">Last Updated</option>
+                <option value="interviews">Interviews</option>
+                <option value="enthusiasm">Enthusiasm</option>
+                <option value="confidence">Confidence</option>
+              </select>
+            </div>
+
+            <div class="d-inline-grid gap-auto-2">
+              <label>Sort Order : </label>
+              <input type="radio" v-model="sortOrder" v-bind:value="1" />
+              <label></label>Ascending
+              <input type="radio" v-model="sortOrder" v-bind:value="-1" />
+              <label>Descending</label>
+            </div>
+          </div>
+
+          <!--INDEX of all applications taking into account sort and filter actions.-->
+          <!-- application list main div-->
+          <div class="row g-1 g-md-4">
+            <!-- application list div to be repeated with v-for -->
+            <div
+              class="col-6 col-lg-4"
+              v-for="application in filterBy(
+                filterBy(
+                  filterBy(
+                    filterBy(
+                      filterBy(
+                        orderBy(applications, sortKey, sortOrder),
+                        searchTerm
+                      ),
+                      filterFollowup,
+                      'followup'
+                    ),
+                    filterStatus,
+                    'status'
+                  ),
+                  filterMethod,
+                  'method'
+                ),
+                (application) =>
+                  application.distance >= this.distanceMin &&
+                  application.distance < this.distanceMax
+              )"
+              v-bind:key="application.id"
+            >
+              <div
+                class="
+                  card
+                  h-100
+                  shadow-xs-secondary
+                  transition-top-hover transition-reveal-hover
+                "
+              >
+                <div class="card-body py-4">
+                  <div class="d-block">
+                    <span class="text-dark fw-medium"
+                      ><h3>{{ application.employer }}</h3></span
+                    >
+                  </div>
+                  <ul>
+                    <div>
+                      <p><b>Position: </b>{{ application.position }}</p>
+                      <p><b>Date Applied: </b>{{ application.date }}</p>
+                      <p>
+                        <b>Distance: </b
+                        >{{ Math.round(application.distance) }} miles
+                      </p>
+                    </div>
+                    <div>
+                      <p><b>Method: </b>{{ application.method }}</p>
+                      <p><b>Status: </b>{{ application.status }}</p>
+                      <p><b>Contact: </b>{{ application.contact }}</p>
+                      <p><b>Contact Email: </b>{{ application.email }}</p>
+                    </div>
+                    <p><b>Followup: </b>{{ application.followup }}</p>
+                    <p><b>Interviews: </b>{{ application.interviews }}</p>
+                    <p><b>Enthusiasm: </b>{{ application.enthusiasm }}</p>
+                    <p><b>Confidence: </b>{{ application.confidence }}</p>
+                    <p><b>Notes: </b>{{ application.notes }}</p>
+                  </ul>
+                  <router-link :to="`/applications/${application.id}/edit`"
+                    >Edit</router-link
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- pagination -->
+          <div class="mt-6 text-end">
+            <nav aria-label="Pagination">
+              <ul class="nav nav-pills nav-pills-sm nav-pills-invert">
+                <li class="nav-item">
+                  <a
+                    class="nav-link px-3 px-3 disabled"
+                    href="#"
+                    tabindex="-1"
+                    aria-disabled="true"
+                  >
+                    <span aria-hidden="true">«</span>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link px-3" href="#">1</a>
+                </li>
+                <li class="nav-item" aria-current="page">
+                  <a class="nav-link px-3 px-3 active" href="#">2</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link px-3" href="#">3</a>
+                </li>
+                <li class="nav-item disabled">
+                  <a
+                    class="nav-link px-3 px-3"
+                    href="#"
+                    tabindex="-1"
+                    aria-disabled="true"
+                    >...</a
+                  >
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link px-3" href="#">12</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link px-3 px-3" href="#">
+                    <span aria-hidden="true">»</span>
+                  </a>
+                </li>
+              </ul>
+            </nav>
+
+            <p class="fs-6 text-gray-500 mt-2">157 total items</p>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 

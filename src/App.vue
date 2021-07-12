@@ -90,8 +90,8 @@
         </div>
       </nav>
       <!-- /Navbar -->
-      <router-view />
     </div>
+    <router-view />
   </div>
 </template>
 
