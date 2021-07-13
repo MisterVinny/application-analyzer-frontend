@@ -1,16 +1,114 @@
 <template>
   <div class="applications">
-    <!--FILTERING testing using dropdowns-->
-    <div>
-      <div id="inline"><h3>(testing)Filter By:</h3></div>
-    </div>
-    <!--            DISTANCE filtering          -->
+    <section>
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-12 mb-5">
+            <!-- cart item -->
+            <div
+              class="
+                position-relative
+                overflow-hidden
+                border border-light
+                rounded
+                shadow-xs
+                p-2
+                mb-4
+              "
+            >
+              <!-- remove from cart -->
+              <a
+                href="#!"
+                class="
+                  btn btn-warning btn-soft
+                  p-2
+                  rounded-0
+                  position-absolute
+                  top-0
+                  end-0
+                "
+              >
+                <svg
+                  height="16px"
+                  viewBox="0 0 16 16"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="currentColor"
+                >
+                  <path
+                    d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"
+                  ></path>
+                  <path
+                    fill-rule="evenodd"
+                    d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"
+                  ></path>
+                </svg>
+              </a>
 
+              <div class="row g-3 py-2 align-items-center">
+                <div class="col-4 col-md-2">
+                  <div class="ratio ratio-1x1">
+                    <span
+                      class="d-flex justify-content-center align-items-center"
+                    >
+                      <!-- <img
+                        class="h-100"
+                        src="/images/products/speakers/thumb/7-min.jpg"
+                        alt="..."
+                      /> -->
+                      <div class="d-block">
+                        <span class="text-dark fw-medium"
+                          ><h3>Apple</h3>
+                          <h6 class="text-gray-600">Rails Developer</h6></span
+                        >
+                      </div>
+                    </span>
+                  </div>
+                </div>
+                <div class="col-8 col-md-6">
+                  <a
+                    href="#!"
+                    class="link-secondary text-decoration-none fw-medium"
+                    >Sport Jabra Elite 75T</a
+                  >
+                  <small class="d-block text-muted">Unit Price: $32.99 </small>
+                </div>
+                <div class="col-12 col-md-4">
+                  <div class="row g-3">
+                    <div class="col-4 col-sm-6 col-lg-5 text-center">
+                      <input
+                        type="number"
+                        class="form-control form-control-sm text-center px-2"
+                        min="0"
+                        max="9999"
+                        value="1"
+                      />
+                      <small class="d-block text-muted mt-1">16 in stock</small>
+                    </div>
+                    <div class="col-8 col-sm-6 col-lg-7 text-md-end">
+                      <p class="text-weight-muted mb-0">
+                        <span class="fw-medium">$32.99</span>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!--FILTERING testing using dropdowns-->
+    <!-- <div>
+      <div id="inline"><h3>(testing)Filter By:</h3></div>
+    </div> -->
+    <!--            DISTANCE filtering          -->
+    <!-- 
     <h1>{{ minDist }}</h1>
     <h1>{{ maxDist }}</h1>
+ 
     <hr />
 
-    <hr />
+    <hr /> -->
     <!-- main applications area-->
     <div class="container pt-4">
       <div class="row g-4">
@@ -45,8 +143,8 @@
             </div>
             <div class="position-relative">
               <select v-model="sortOrder" class="form-select form-select-sm">
-                <option value="1">Ascending</option>
-                <option value="-1">Descending</option>
+                <option :value="1">Ascending</option>
+                <option :value="-1">Descending</option>
               </select>
             </div>
             <!--SEARCH field, filter is the innermost base filter.-->
