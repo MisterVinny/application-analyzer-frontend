@@ -15,9 +15,7 @@
     <h1>{{ minDist }}</h1>
     <h1>{{ maxDist }}</h1>
     <hr />
-    <div>
-      <Slider v-model="distanceValues" />
-    </div>
+
     <hr />
     <!--NEW application - links to ApplicationsNew view.-->
     <div>
@@ -329,13 +327,9 @@
 <script>
 import axios from "axios";
 import Vue2Filters from "vue2-filters";
-import Slider from "@vueform/slider";
 
 export default {
   mixins: [Vue2Filters.mixin],
-  components: {
-    Slider,
-  },
 
   data: function () {
     return {
