@@ -1,14 +1,8 @@
 <template>
   <div class="applications">
+    <!--FILTERING testing using dropdowns-->
     <div>
-      <h1>Welcome, {{ user }}</h1>
-      <h2>Here are your {{ applications.length }} applications:</h2>
-    </div>
-
-    <hr />
-    <!--FILTERING using dropdowns-->
-    <div>
-      <div id="inline"><h3>Filter By:</h3></div>
+      <div id="inline"><h3>(testing)Filter By:</h3></div>
     </div>
     <!--            DISTANCE filtering          -->
 
@@ -17,18 +11,26 @@
     <hr />
 
     <hr />
-    <!--NEW application - links to ApplicationsNew view.-->
-    <div>
-      <router-link to="/applications/new">Add Application</router-link>
-    </div>
-
-    <!--Test New Page-->
-    <div class="container">
+    <!-- main applications area-->
+    <div class="container pt-4">
       <div class="row g-4">
         <!-- applications -->
         <div class="col-sm-12 col-md-12 col-lg-12">
+          <div class="justify-content-center">
+            <h1 class="text-center pb-2">
+              Welcome, {{ user }}, you have
+              {{ applications.length }} applications
+            </h1>
+          </div>
           <!-- sorting applications as well as direction -->
           <div class="d-flex justify-content-between mb-4">
+            <div class="position-relative">
+              <router-link
+                class="btn btn-secondary btn-sm"
+                to="/applications/new"
+                >Add Application</router-link
+              >
+            </div>
             <div class="position-relative">
               <select v-model="sortKey" class="form-select form-select-sm">
                 <option value="" selected hidden>Sort By</option>
@@ -141,29 +143,6 @@
                   </div>
                 </div>
 
-                <!-- filter by distance input -->
-                <div class="row g-3">
-                  <div class="col-md-12">
-                    <div class="form-floating mb-3">
-                      <select
-                        class="form-select"
-                        id="filter-method"
-                        aria-label="Method"
-                        v-model="filterMethod"
-                      >
-                        <option value="" selected>None</option>
-                        <option
-                          v-for="application in filteredValues"
-                          v-bind:key="application.id"
-                        >
-                          {{ application[filterKey] }}
-                        </option>
-                      </select>
-                      <label for="filter-method">Method</label>
-                    </div>
-                  </div>
-                </div>
-
                 <div class="d-flex justify-content-between pt-2">
                   <div id="inline">
                     <button
@@ -181,7 +160,7 @@
 
           <!-- display INDEX of all applications taking into account sort and filter actions.-->
           <!-- application list main div-->
-          <div class="row g-1 g-md-3">
+          <div class="row g-1 g-md-3 pb-6">
             <!-- application list div to be repeated with v-for -->
             <div
               class="col-12 col-lg-4"
@@ -271,52 +250,6 @@
                 </div>
               </div>
             </div>
-          </div>
-
-          <!-- pagination -->
-          <div class="mt-6 text-end">
-            <nav aria-label="Pagination">
-              <ul class="nav nav-pills nav-pills-sm nav-pills-invert">
-                <li class="nav-item">
-                  <a
-                    class="nav-link px-3 px-3 disabled"
-                    href="#"
-                    tabindex="-1"
-                    aria-disabled="true"
-                  >
-                    <span aria-hidden="true">«</span>
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link px-3" href="#">1</a>
-                </li>
-                <li class="nav-item" aria-current="page">
-                  <a class="nav-link px-3 px-3 active" href="#">2</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link px-3" href="#">3</a>
-                </li>
-                <li class="nav-item disabled">
-                  <a
-                    class="nav-link px-3 px-3"
-                    href="#"
-                    tabindex="-1"
-                    aria-disabled="true"
-                    >...</a
-                  >
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link px-3" href="#">12</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link px-3 px-3" href="#">
-                    <span aria-hidden="true">»</span>
-                  </a>
-                </li>
-              </ul>
-            </nav>
-
-            <p class="fs-6 text-gray-500 mt-2">157 total items</p>
           </div>
         </div>
       </div>

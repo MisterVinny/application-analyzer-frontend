@@ -1,5 +1,5 @@
 <template>
-  <div class="applications-new">
+  <div class="applications-edit">
     <div id="wrapper" class="d-flex flex-fill">
       <!--
 
@@ -28,7 +28,7 @@
                   />
                 </div>
                 <div class="form-group">
-                  <label>Address</label>
+                  <label>Address (City, State Zip)</label>
                   <input
                     type="text"
                     class="form-control"
