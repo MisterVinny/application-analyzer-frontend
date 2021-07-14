@@ -204,16 +204,19 @@
     },
   ];
 
-  const width = 1024;
-  const height = 768;
-
   let applicationsFormatted = applications.map((app) => {
     var newApp = app;
-    newApp.date = Date.parse(app.date);
+    // newApp.date = Date.parse(app.date);
+
+    // console.log(app.date.replace(/-/g, ""));
+    // newApp.date = parseInt(app.date.replace(/-/g, ""));
+    var parseDate = d3.timeParse("%Y-%m-%d");
+    newApp.date = parseDate(app.date);
     return newApp;
   });
 
-  console.log(applicationsFormatted);
+  const width = 1024;
+  const height = 768;
 
   let svg = d3
     .select("body")
@@ -223,11 +226,12 @@
     .attr("width", width);
   //                     ##### Sector => method     "Market Cap" => Enthusiasm (radius)
 
-  // The main brunt of all the D3 calculating goes on down here         ####### edited to use applicationsFormatted #####
+  // The main brunt of all the D3 calculating goes on down here   ####### edited to use applicationsFormatted #####
 
   // a Set is a convenient way to remove duplicates ----- also, this is what maps the combined lines
   let methods = Array.from(new Set(applicationsFormatted.map((d) => d.method)));
-  // we'll separate our parallel swarms by 150 pixels each
+
+  // sets the parallel swarms apart by 150 pixels each
   let yCoords = methods.map((d, i) => 150 + i * 150);
   let yScale = d3.scaleOrdinal().domain(methods).range(yCoords);
 
@@ -235,7 +239,19 @@
   let xScale = d3
     .scaleLinear()
     .domain(d3.extent(applicationsFormatted.map((d) => +d["date"])))
-    .range([width - 50, 50]); // using 50 just to provide some margin at the left and right
+    .range([width - 100, 100]); // using 50 just to provide some margin at the left and right
+
+  // This sets the y_axis and uses the yScale from above to setts min and max range
+  var y_axis = d3.axisLeft().scale(yScale);
+
+  // This sets the x_axis and uses the xScale from above to get the min and max range
+  var x_axis = d3
+    .axisBottom()
+    .scale(xScale)
+    .tickFormat((d) => {
+      var formatTime = d3.timeFormat("%Y-%m-%d");
+      return formatTime(d);
+    });
 
   // this just colors all of the data
   let color = d3.scaleOrdinal().domain(methods).range(d3.schemePaired);
@@ -249,6 +265,34 @@
   // our circle radii will range from 5-30px
   let size = d3.scaleLinear().domain(enthusiasmDomain).range([0, 10]);
 
+  // -1- Create a tooltip div that is hidden by default:
+  var tooltip = d3
+    .select("body")
+    .append("div")
+    .style("opacity", 0)
+    .attr("class", "tooltip")
+    .style("background-color", "black")
+    .style("border-radius", "5px")
+    .style("padding", "10px")
+    .style("color", "white");
+
+  // -2- Create 3 functions to show / update (when mouse move but stay on same circle) / hide the tooltip
+  var showTooltip = function (d) {
+    tooltip.transition().duration(200);
+    tooltip
+      .style("opacity", 1)
+      .html("Position: " + d.position)
+      .style("left", d3.mouse(this)[0] + 30 + "px")
+      .style("top", d3.mouse(this)[1] + 30 + "px");
+  };
+  var moveTooltip = function (d) {
+    tooltip
+      .style("left", d3.mouse(this)[0] + 30 + "px")
+      .style("top", d3.mouse(this)[1] + 30 + "px");
+  };
+  var hideTooltip = function (d) {
+    tooltip.transition().duration(200).style("opacity", 0);
+  };
   svg
     .selectAll(".circ")
     .data(applicationsFormatted)
@@ -259,12 +303,14 @@
     .attr("fill", (d) => color(d.method))
     .attr("r", (d) => size(Math.sqrt(d["enthusiasm"])))
     .attr("cy", (d) => yScale(d.method))
-    .attr("cx", (d) => xScale(d.date));
+    .attr("cx", (d) => xScale(d.date))
+    .on("mouseover", showTooltip)
+    .on("mousemove", moveTooltip)
+    .on("mouseleave", hideTooltip);
 
   //  the force simulation, currently Y-oriented (meaning, bars) so it converges on X
   let simulation = d3
     .forceSimulation(applicationsFormatted)
-
     .force(
       "y",
       d3
@@ -273,7 +319,6 @@
         })
         .strength(0.2)
     )
-
     .force(
       "x",
       d3
@@ -282,14 +327,12 @@
         })
         .strength(1)
     )
-
     .force(
       "collide",
       d3.forceCollide((d) => {
         return size(Math.sqrt(d["enthusiasm"]));
       })
     )
-
     .alphaDecay(0)
     .alpha(0.3)
     .on("tick", tick);
@@ -310,12 +353,11 @@
   }, 3000); // start decay after 3 seconds
 
   // ok now some labels?
-  svg
-    .append("text")
-    .attr("class", "y label")
-    .attr("text-anchor", "end")
-    .attr("y", 5)
-    .attr("dy", ".75em")
-    .attr("transform", "rotate(-90)")
-    .text("Job Application (methods)");
+
+  // This appends the left-hand chart keys
+  svg.append("g").attr("transform", "translate(75, 0)").call(y_axis);
+
+  // var xAxisTranslate = height;
+  // This appends the bottom key
+  svg.append("g").attr("transform", "translate(0, 640)").call(x_axis);
 </script>
