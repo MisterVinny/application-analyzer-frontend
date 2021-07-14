@@ -1,14 +1,13 @@
 <template>
   <div class="applications-edit">
-    <div id="wrapper" class="d-flex flex-fill">
-      <!--
-
-        Main
-
-      -->
-      <main class="flex-fill p-4 bg-white">
+    <div
+      id="wrapper"
+      class="d-flex flex-fill bg-gray-300 justify-content-center"
+    >
+      <!-- Main -->
+      <container class="col-lg-8 col-md-10 p-4">
         <!-- edit application form -->
-        <div class="doc-container mb-6">
+        <div class="mb-6">
           <div class="bg-gray-200 rounded p-3">
             <div class="doc-container mb-6">
               <h2
@@ -162,7 +161,7 @@
             </div>
           </div>
         </div>
-      </main>
+      </container>
     </div>
   </div>
 </template>

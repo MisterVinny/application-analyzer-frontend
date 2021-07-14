@@ -1,5 +1,5 @@
 <template>
-  <div class="applications">
+  <div class="applications bg-gray-300">
     <!-- main applications area-->
     <div class="container px-0 pt-4">
       <div class="row g-4">
@@ -188,6 +188,7 @@
                     shadow-xs-secondary
                     p-2
                     mb-4
+                    bg-white
                     transition-top-hover transition-reveal-hover
                   "
                 >
