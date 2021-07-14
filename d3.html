@@ -220,7 +220,7 @@
       id: 51,
       employer: "Pasties Donuts 2",
       address: "green bay, WI",
-      position: "Donut Human Interface Developer",
+      position: "Donut Production Analyzer",
       date: "2021-07-02",
       contact: "Lucy Frost",
       email: "frosted@gmail.com",
@@ -239,7 +239,7 @@
       id: 52,
       employer: "Pasties Donuts 3",
       address: "green bay, WI",
-      position: "Donut Human Interface Developer",
+      position: "Donut Network Coordinator",
       date: "2021-07-02",
       contact: "Lucy Frost",
       email: "frosted@gmail.com",
@@ -312,11 +312,14 @@
   );
 
   // Controls the scale of the enthusiasm values
+  // There is a problem when using Math.sqrt(d) with this, stick with linear values for now.
+  // Items would have hardly-visible circles with sqrt(d)
   enthusiasmDomain = enthusiasmDomain.map((d) => d / 2);
   // Circle radii range (This is the max size, not the given. So it controls overall sizes.)
   let size = d3.scaleLinear().domain(enthusiasmDomain).range([5, 25]);
 
-  console.log(size);
+  // Median
+
   //#################################### TOOL TIPS  ############################################
   // -1- Create a tooltip div that is hidden by default:
   var tooltip = d3
@@ -324,27 +327,24 @@
     .append("div")
     .style("opacity", 0)
     .attr("class", "tooltip")
-    .style("font-size", "16px");
+    .style("font-size", "20px");
 
-  // -2- Create 3 functions to show / update (when mouse move but stay on same circle) / hide the tooltip
+  // show / update (when mouse moves but stay on same circle) / hide the tooltip
   var mouseover = function (d) {
     tooltip.transition().duration(200).style("opacity", 1);
+    tooltip.html(
+      "<span style='color:grey'>Employer: </span>" +
+        d.employer +
+        "<br/><span style='color:grey'>Position: </span>" +
+        d.position
+    );
+  };
+  var mousemove = function () {
     tooltip
-      .html(
-        "<span style='color:grey'>Employer: </span>" +
-          d.employer +
-          "<br/><span style='color:grey'>Position: </span>" +
-          d.position
-      )
-      .style("left", d3.mouse(this)[0] + 85 + "px")
+      .style("left", d3.mouse(this)[0] + 90 + "px")
       .style("top", d3.mouse(this)[1] + "px");
   };
-  var mousemove = function (d) {
-    tooltip
-      .style("left", d3.mouse(this)[0] + 60 + "px")
-      .style("top", d3.mouse(this)[1] + "px");
-  };
-  var mouseleave = function (d) {
+  var mouseleave = function () {
     tooltip.transition().duration(200).style("opacity", 0);
   };
 
