@@ -6,7 +6,21 @@
     <script src="https://d3js.org/d3.v5.min.js"></script>
     <title>Swarm Plot</title>
   </head>
-  <body></body>
+  <body>
+    <div id="d3chart"></div>
+    <style>
+      .tooltip {
+        background-color: black;
+        border: none;
+        border-radius: 5px;
+        padding: 15px;
+        min-width: 50px;
+        display: inline-block;
+        text-align: left;
+        color: white;
+      }
+    </style>
+  </body>
 </html>
 <script>
   var applications = [
@@ -184,8 +198,8 @@
       distance: 79.78669147461491,
     },
     {
-      id: 44,
-      employer: "Pasties Donuts",
+      id: 50,
+      employer: "Pasties Donuts 1",
       address: "green bay, WI",
       position: "Donut Human Interface Developer",
       date: "2021-07-02",
@@ -202,14 +216,48 @@
       method: "Indeed",
       distance: 164.09298453688837,
     },
+    {
+      id: 51,
+      employer: "Pasties Donuts 2",
+      address: "green bay, WI",
+      position: "Donut Human Interface Developer",
+      date: "2021-07-02",
+      contact: "Lucy Frost",
+      email: "frosted@gmail.com",
+      followup: true,
+      interviews: 3,
+      status: "refused-offer",
+      enthusiasm: 1,
+      confidence: 9,
+      notes: "DONUTS!",
+      updated_at: "2021-07-13T02:44:04.317Z",
+      created_at: "2021-07-06T18:59:04.881Z",
+      method: "Indeed",
+      distance: 164.09298453688837,
+    },
+    {
+      id: 52,
+      employer: "Pasties Donuts 3",
+      address: "green bay, WI",
+      position: "Donut Human Interface Developer",
+      date: "2021-07-02",
+      contact: "Lucy Frost",
+      email: "frosted@gmail.com",
+      followup: true,
+      interviews: 3,
+      status: "refused-offer",
+      enthusiasm: 5,
+      confidence: 9,
+      notes: "DONUTS!",
+      updated_at: "2021-07-13T02:44:04.317Z",
+      created_at: "2021-07-06T18:59:04.881Z",
+      method: "Indeed",
+      distance: 164.09298453688837,
+    },
   ];
 
   let applicationsFormatted = applications.map((app) => {
     var newApp = app;
-    // newApp.date = Date.parse(app.date);
-
-    // console.log(app.date.replace(/-/g, ""));
-    // newApp.date = parseInt(app.date.replace(/-/g, ""));
     var parseDate = d3.timeParse("%Y-%m-%d");
     newApp.date = parseDate(app.date);
     return newApp;
@@ -219,15 +267,14 @@
   const height = 768;
 
   let svg = d3
-    .select("body")
+    .select("#d3chart")
     .data(applicationsFormatted)
     .append("svg")
     .attr("height", height)
     .attr("width", width);
-  //                     ##### Sector => method     "Market Cap" => Enthusiasm (radius)
 
-  // The main brunt of all the D3 calculating goes on down here   ####### edited to use applicationsFormatted #####
-
+  console.log(applicationsFormatted);
+  //#################################### D3 Calculations  ############################################
   // a Set is a convenient way to remove duplicates ----- also, this is what maps the combined lines
   let methods = Array.from(new Set(applicationsFormatted.map((d) => d.method)));
 
@@ -239,7 +286,7 @@
   let xScale = d3
     .scaleLinear()
     .domain(d3.extent(applicationsFormatted.map((d) => +d["date"])))
-    .range([width - 100, 100]); // using 50 just to provide some margin at the left and right
+    .range([width - 120, 120]); // using 50 just to provide some margin at the left and right
 
   // This sets the y_axis and uses the yScale from above to setts min and max range
   var y_axis = d3.axisLeft().scale(yScale);
@@ -249,50 +296,59 @@
     .axisBottom()
     .scale(xScale)
     .tickFormat((d) => {
-      var formatTime = d3.timeFormat("%Y-%m-%d");
+      var formatTime = d3.timeFormat("%Y-%m-%d"); // Sets the format for the ticks on the chart
       return formatTime(d);
     });
 
   // this just colors all of the data
   let color = d3.scaleOrdinal().domain(methods).range(d3.schemePaired);
 
-  // originally mapped market cap to the radius for the circles... this should be based on enthusiasm for this app.
+  // Maps the enthusiasm rating to scale the size of circles plotted on the chart.
+  // Domain is merely the min and max range, so if enthusiasm ratings are 6-9,
+  // 6 is the minimum and 9 is the max, while 1-4 would have 1 be the minimum and 4 the max
+  // Creates a two-element array [6, 9] or [1, 4] according to above examples.
   let enthusiasmDomain = d3.extent(
     applicationsFormatted.map((d) => d["enthusiasm"])
   );
-  // we'll use the square root of market cap for a better scale
-  enthusiasmDomain = enthusiasmDomain.map((d) => Math.sqrt(d));
-  // our circle radii will range from 5-30px
-  let size = d3.scaleLinear().domain(enthusiasmDomain).range([0, 10]);
 
+  // Controls the scale of the enthusiasm values
+  enthusiasmDomain = enthusiasmDomain.map((d) => d / 2);
+  // Circle radii range (This is the max size, not the given. So it controls overall sizes.)
+  let size = d3.scaleLinear().domain(enthusiasmDomain).range([5, 25]);
+
+  console.log(size);
+  //#################################### TOOL TIPS  ############################################
   // -1- Create a tooltip div that is hidden by default:
   var tooltip = d3
-    .select("body")
+    .select("#d3chart")
     .append("div")
     .style("opacity", 0)
     .attr("class", "tooltip")
-    .style("background-color", "black")
-    .style("border-radius", "5px")
-    .style("padding", "10px")
-    .style("color", "white");
+    .style("font-size", "16px");
 
   // -2- Create 3 functions to show / update (when mouse move but stay on same circle) / hide the tooltip
-  var showTooltip = function (d) {
-    tooltip.transition().duration(200);
+  var mouseover = function (d) {
+    tooltip.transition().duration(200).style("opacity", 1);
     tooltip
-      .style("opacity", 1)
-      .html("Position: " + d.position)
-      .style("left", d3.mouse(this)[0] + 30 + "px")
-      .style("top", d3.mouse(this)[1] + 30 + "px");
+      .html(
+        "<span style='color:grey'>Employer: </span>" +
+          d.employer +
+          "<br/><span style='color:grey'>Position: </span>" +
+          d.position
+      )
+      .style("left", d3.mouse(this)[0] + 85 + "px")
+      .style("top", d3.mouse(this)[1] + "px");
   };
-  var moveTooltip = function (d) {
+  var mousemove = function (d) {
     tooltip
-      .style("left", d3.mouse(this)[0] + 30 + "px")
-      .style("top", d3.mouse(this)[1] + 30 + "px");
+      .style("left", d3.mouse(this)[0] + 60 + "px")
+      .style("top", d3.mouse(this)[1] + "px");
   };
-  var hideTooltip = function (d) {
+  var mouseleave = function (d) {
     tooltip.transition().duration(200).style("opacity", 0);
   };
+
+  // Adds all the circles to the chart
   svg
     .selectAll(".circ")
     .data(applicationsFormatted)
@@ -304,11 +360,14 @@
     .attr("r", (d) => size(Math.sqrt(d["enthusiasm"])))
     .attr("cy", (d) => yScale(d.method))
     .attr("cx", (d) => xScale(d.date))
-    .on("mouseover", showTooltip)
-    .on("mousemove", moveTooltip)
-    .on("mouseleave", hideTooltip);
+    .on("mouseover", mouseover)
+    .on("mousemove", mousemove)
+    .on("mouseleave", mouseleave);
 
-  //  the force simulation, currently Y-oriented (meaning, bars) so it converges on X
+  //#################################### FORCE SIMULATION  ############################################
+  // the force simulation, currently Y-oriented so it converges along the x-axis, this is what pulls
+  // bubbles together and pushes overlapping bubbles apart.
+
   let simulation = d3
     .forceSimulation(applicationsFormatted)
     .force(
@@ -352,12 +411,13 @@
     simulation.alphaDecay(0.1);
   }, 3000); // start decay after 3 seconds
 
-  // ok now some labels?
+  //#################################### LABELS  ############################################
 
   // This appends the left-hand chart keys
   svg.append("g").attr("transform", "translate(75, 0)").call(y_axis);
 
   // var xAxisTranslate = height;
-  // This appends the bottom key
+  // This appends the bottom key, uses tickFormat from above
+  // NOTE: elements are draw from top-left as [0,0]
   svg.append("g").attr("transform", "translate(0, 640)").call(x_axis);
 </script>
