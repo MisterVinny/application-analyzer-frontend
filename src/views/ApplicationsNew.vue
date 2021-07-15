@@ -2,7 +2,7 @@
   <div class="applications-new">
     <div id="wrapper" class="d-flex flex-fill">
       <!-- Main -->
-      <main class="flex-fill p-4 bg-white">
+      <main class="flex-fill p-4 bg-gray-300">
         <!-- new application form -->
         <div class="doc-container mb-6">
           <div class="bg-gray-200 rounded p-3">

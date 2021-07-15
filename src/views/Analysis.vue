@@ -1,22 +1,41 @@
 <template>
   <div class="analysis">
-    <div>
-      <div id="d3chart"></div>
-      <!-- <svg id="chart"></svg> -->
+    <div class="row justify-content-center bg-gray-300 h-50 pt-4 pb-8">
+      <div
+        id="d3chart"
+        class="svg-container col-10 justify-content-center bg-white"
+      ></div>
     </div>
+    <!-- <div class="row bg-gray-300 col-12">df</div> -->
   </div>
 </template>
 
 <style>
 .tooltip {
-  background-color: black;
+  background-color: rgb(22, 34, 40);
   border: none;
   border-radius: 5px;
   padding: 15px;
   min-width: 50px;
+  max-width: 256px;
   display: inline-block;
   text-align: left;
   color: white;
+}
+.svg-container {
+  display: inline-block;
+  position: relative;
+  /* width: 100%; */
+  width: 1200px;
+  padding-bottom: 55%;
+  /* vertical-align: top; */
+  overflow: hidden;
+}
+.svg-content {
+  display: inline-block;
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 </style>
 
@@ -41,13 +60,16 @@ export default {
         return newApp;
       });
 
-      const width = 1024;
+      const width = 1200;
       const height = 768;
 
       let svg = d3
-        .select("#d3chart")
+        .select("div#d3chart")
         .data(applicationsFormatted)
         .append("svg")
+        .attr("preserveAspectRatio", "xMinYMin meet")
+        // .attr("viewBox", "0 0 1024 768")
+        .classed("svg-content", true)
         .attr("height", height)
         .attr("width", width);
 
@@ -59,14 +81,14 @@ export default {
       );
 
       // sets the parallel swarms apart by 150 pixels each
-      let yCoords = methods.map((d, i) => 150 + i * 150);
+      let yCoords = methods.map((d, i) => 125 + i * 125);
       let yScale = d3.scaleOrdinal().domain(methods).range(yCoords);
 
       // This section sets the x scale for the left-to-right spread of data.... should be by date
       let xScale = d3
         .scaleLinear()
         .domain(d3.extent(applicationsFormatted.map((d) => +d["date"])))
-        .range([width - 120, 120]); // using 50 just to provide some margin at the left and right
+        .range([140, width - 100]); // 1024 must match value in .attr "0 0 1024 768" above to scale correctly.
 
       // This sets the y_axis and uses the yScale from above to setts min and max range
       var y_axis = d3.axisLeft().scale(yScale);
@@ -76,9 +98,10 @@ export default {
         .axisBottom()
         .scale(xScale)
         .tickFormat((d) => {
-          var formatTime = d3.timeFormat("%Y-%m-%d"); // Sets the format for the ticks on the chart
+          var formatTime = d3.timeFormat("%b%d"); // Sets the format for the ticks on the chart
           return formatTime(d);
-        });
+        })
+        .ticks(10);
 
       // this just colors all of the data
       let color = d3.scaleOrdinal().domain(methods).range(d3.schemePaired);
@@ -94,9 +117,9 @@ export default {
       // Controls the scale of the enthusiasm values
       // There is a problem when using Math.sqrt(d) with this, stick with linear values for now.
       // Items would have hardly-visible circles with sqrt(d)
-      enthusiasmDomain = enthusiasmDomain.map((d) => d / 2);
+      enthusiasmDomain = enthusiasmDomain.map((d) => d / 3);
       // Circle radii range (This is the max size, not the given. So it controls overall sizes.)
-      let size = d3.scaleLinear().domain(enthusiasmDomain).range([5, 25]);
+      let size = d3.scaleLinear().domain(enthusiasmDomain).range([1, 25]);
 
       // Median
 
@@ -107,22 +130,22 @@ export default {
         .append("div")
         .style("opacity", 0)
         .attr("class", "tooltip")
-        .style("font-size", "20px");
+        .style("font-size", "16px");
 
       // show / update (when mouse moves but stay on same circle) / hide the tooltip
       var mouseover = function (d) {
         tooltip.transition().duration(200).style("opacity", 1);
         tooltip.html(
-          "<span style='color:grey'>Employer: </span>" +
+          "<span style='color:grey'>Employer:<br/></span>" +
             d.employer +
-            "<br/><span style='color:grey'>Position: </span>" +
+            "<br/><span style='color:grey'>Position:<br/></span>" +
             d.position
         );
       };
       var mousemove = function () {
         tooltip
-          .style("left", d3.mouse(this)[0] + 90 + "px")
-          .style("top", d3.mouse(this)[1] + "px");
+          .style("left", d3.mouse(this)[0] - 60 + "px")
+          .style("top", d3.mouse(this)[1] + 25 + "px");
       };
       var mouseleave = function () {
         tooltip.transition().duration(200).style("opacity", 0);
@@ -195,12 +218,28 @@ export default {
       //#################################### LABELS  ############################################
 
       // This appends the left-hand chart keys
-      svg.append("g").attr("transform", "translate(75, 0)").call(y_axis);
+      svg
+        .append("g")
+        .attr("transform", "translate(110, 0)")
+        .call(y_axis)
+        .style("font", "14px helvetica");
 
       // var xAxisTranslate = height;
       // This appends the bottom key, uses tickFormat from above
       // NOTE: elements are draw from top-left as [0,0]
-      svg.append("g").attr("transform", "translate(0, 640)").call(x_axis);
+      svg
+        .append("g")
+        .attr("transform", "translate(0, 50)")
+        .call(x_axis)
+        .style("font", "14px helvetica");
+
+      svg
+        .append("text")
+        .attr("class", "x label")
+        .attr("text-anchor", "end")
+        .attr("x", width - 500)
+        .attr("y", 35)
+        .text("2021 - Applications by Method");
     });
   },
 

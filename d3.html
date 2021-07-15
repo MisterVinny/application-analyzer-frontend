@@ -7,7 +7,7 @@
     <title>Swarm Plot</title>
   </head>
   <body>
-    <div id="d3chart"></div>
+    <div id="d3chart" class="svg-container"></div>
     <style>
       .tooltip {
         background-color: black;
@@ -18,6 +18,20 @@
         display: inline-block;
         text-align: left;
         color: white;
+      }
+      .svg-container {
+        display: inline-block;
+        position: relative;
+        width: 100%;
+        padding-bottom: 100%;
+        vertical-align: top;
+        overflow: hidden;
+      }
+      .svg-content {
+        display: inline-block;
+        position: absolute;
+        top: 0;
+        left: 0;
       }
     </style>
   </body>
@@ -263,15 +277,18 @@
     return newApp;
   });
 
-  const width = 1024;
-  const height = 768;
+  // const width = 1024;
+  // const height = 768;
 
   let svg = d3
-    .select("#d3chart")
+    .select("div#d3chart")
     .data(applicationsFormatted)
     .append("svg")
-    .attr("height", height)
-    .attr("width", width);
+    .attr("preserveAspectRatio", "xMinYMin meet")
+    .attr("viewBox", "0 0 1024 768")
+    .classed("svg-content", true);
+  // .attr("height", height)
+  // .attr("width", width);
 
   console.log(applicationsFormatted);
   //#################################### D3 Calculations  ############################################
@@ -286,7 +303,7 @@
   let xScale = d3
     .scaleLinear()
     .domain(d3.extent(applicationsFormatted.map((d) => +d["date"])))
-    .range([width - 120, 120]); // using 50 just to provide some margin at the left and right
+    .range([1024 - 120, 120]); // using 50 just to provide some margin at the left and right
 
   // This sets the y_axis and uses the yScale from above to setts min and max range
   var y_axis = d3.axisLeft().scale(yScale);
