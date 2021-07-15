@@ -141,18 +141,19 @@
 
                 <div class="d-inline-grid gap-auto-4 pt-4">
                   <router-link
-                    class="btn-sm btn-secondary"
+                    class="btn btn-secondary btn-sm"
                     :to="`/applications/`"
+                    tag="button"
                     >Cancel</router-link
                   >
                   <input
                     type="submit"
-                    class="btn-sm btn-secondary"
+                    class="btn btn-secondary btn-sm"
                     value="Update"
                   />
                   <button
                     v-on:click="deleteApplication()"
-                    class="btn-sm btn-secondary"
+                    class="btn btn-secondary btn-sm"
                   >
                     Delete Application
                   </button>

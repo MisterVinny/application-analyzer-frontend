@@ -10,12 +10,10 @@
           bg-white
           shadow
           navbar-autohide
+          justify-content-center
         "
       >
-        <div class="container">
-          <!-- brand / logo -->
-          <img src="https://img.icons8.com/clouds/100/000000/code.png" />
-
+        <div class="d-flex justify-content-center">
           <button
             class="navbar-toggler"
             type="button"
@@ -38,7 +36,6 @@
                 align-items-center
               "
             >
-              <img src="https://img.icons8.com/clouds/100/000000/code.png" />
               <button
                 class="navbar-toggler"
                 type="dropdown"
@@ -64,7 +61,7 @@
               </button>
             </div>
 
-            <ul class="navbar-nav ms-auto">
+            <ul class="navbar-nav ms-auto align-items-center">
               <li>
                 <router-link class="dropdown-item" to="/applications"
                   >Applications</router-link
@@ -74,6 +71,10 @@
                 <router-link class="dropdown-item" to="/analysis"
                   >Analysis</router-link
                 >
+              </li>
+              <li>
+                <!-- brand / logo -->
+                <img src="https://img.icons8.com/clouds/100/000000/code.png" />
               </li>
               <li>
                 <router-link class="dropdown-item" to="/profile"

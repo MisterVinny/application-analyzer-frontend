@@ -19,6 +19,7 @@
                   <router-link
                     class="btn btn-secondary btn-sm"
                     to="/applications/new"
+                    tag="button"
                     >Add Application</router-link
                   >
                 </div>
@@ -211,7 +212,7 @@
                       :to="`/applications/${application.id}/edit`"
                     >
                       <svg
-                        height="18px"
+                        height="20px"
                         viewBox="0 0 16 16"
                         xmlns="http://www.w3.org/2000/svg"
                         fill="currentColor"

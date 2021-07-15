@@ -21,6 +21,7 @@
                 <div class="form-group">
                   <label>Employer : </label>
                   <input
+                    required
                     type="text"
                     class="form-control"
                     v-model="newApplicationParams.employer"
@@ -29,6 +30,7 @@
                 <div class="form-group">
                   <label>Address (City, State Zip)</label>
                   <input
+                    required
                     type="text"
                     class="form-control"
                     v-model="newApplicationParams.address"
@@ -37,6 +39,7 @@
                 <div class="form-group">
                   <label>Position : </label>
                   <input
+                    required
                     type="text"
                     class="form-control"
                     v-model="newApplicationParams.position"
@@ -46,6 +49,7 @@
                   <label>Applied On : </label>
                   <!-- Date picker in form - pay attention to styling later-->
                   <date-picker
+                    required
                     v-model="newApplicationParams.date"
                     class="form-control"
                     valueType="format"
@@ -71,6 +75,7 @@
                 <div class="form-group">
                   <label>Method : </label>
                   <input
+                    required
                     type="text"
                     class="form-control"
                     v-model="newApplicationParams.method"
@@ -79,6 +84,7 @@
                 <div class="form-group">
                   <label>Enthusiasm : </label>
                   <input
+                    required
                     type="number"
                     class="form-control"
                     v-model="newApplicationParams.enthusiasm"
@@ -87,6 +93,7 @@
                 <div class="form-group">
                   <label>Confidence : </label>
                   <input
+                    required
                     type="number"
                     class="form-control"
                     v-model="newApplicationParams.confidence"
@@ -105,13 +112,14 @@
 
                 <div class="d-inline-grid gap-auto-4 pt-4">
                   <router-link
-                    class="btn-sm btn-secondary"
+                    class="btn btn-sm btn-secondary"
                     :to="`/applications/`"
+                    tag="button"
                     >Cancel</router-link
                   >
                   <input
                     type="submit"
-                    class="btn-sm btn-secondary"
+                    class="btn btn-secondary btn-sm"
                     value="Submit"
                   />
                 </div>
