@@ -1,8 +1,11 @@
 <template>
   <div class="applications-new">
-    <div id="wrapper" class="d-flex flex-fill">
+    <div
+      id="wrapper"
+      class="d-flex flex-fill bg-gray-300 justify-content-center"
+    >
       <!-- Main -->
-      <main class="flex-fill p-4 bg-gray-300">
+      <container class="col-lg-8 col-md-10 p-4">
         <!-- new application form -->
         <div class="doc-container mb-6">
           <div class="bg-gray-200 rounded p-3">
@@ -64,20 +67,6 @@
                     v-model="newApplicationParams.email"
                   />
                 </div>
-                <!-- followup switch -->
-                <div class="form-check form-switch mb-2">
-                  <label class="d-flex align-items-center mb-3 pt-4">
-                    <input
-                      class="d-none-cloaked"
-                      type="checkbox"
-                      v-model="newApplicationParams.followup"
-                      true-value="true"
-                      false-value="false"
-                    />
-                    <i class="switch-icon"></i>
-                    <span class="px-3 user-select-none">Follow-up Sent</span>
-                  </label>
-                </div>
 
                 <div class="form-group">
                   <label>Method : </label>
@@ -130,7 +119,7 @@
             </div>
           </div>
         </div>
-      </main>
+      </container>
     </div>
   </div>
 </template>

@@ -1,12 +1,10 @@
 <template>
   <div class="analysis">
-    <div class="row justify-content-center bg-gray-300 h-50 pt-4 pb-8">
-      <div
-        id="d3chart"
-        class="svg-container col-10 justify-content-center bg-white"
-      ></div>
+    <div class="container-fluid bg-gray-300 p-0 m-0 vh-100">
+      <div class="row justify-content-center bg-gray-300 pt-5">
+        <div id="d3chart" class="svg-container col-11 bg-white"></div>
+      </div>
     </div>
-    <!-- <div class="row bg-gray-300 col-12">df</div> -->
   </div>
 </template>
 

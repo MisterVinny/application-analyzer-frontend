@@ -94,7 +94,12 @@
     <router-view />
   </div>
 </template>
-
+<style>
+html,
+body {
+  height: 100vh;
+}
+</style>
 <script>
 export default {
   data: function () {
